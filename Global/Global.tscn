@@ -1,0 +1,244 @@
+[gd_scene load_steps=11 format=3 uid="uid://dpef00ew5n5dr"]
+
+[ext_resource type="Script" path="res://Global/Global.gd" id="1_8vygp"]
+[ext_resource type="AudioStream" uid="uid://qc1rsrp8n0lg" path="res://Global/Audio/click.mp3" id="2_gocb6"]
+[ext_resource type="Texture2D" uid="uid://yqk0yo1vdyr0" path="res://Global/Audio/sfx.png" id="3_txeuc"]
+[ext_resource type="Texture2D" uid="uid://bojiju7r2207p" path="res://Global/config.png" id="3_wpa8s"]
+[ext_resource type="Texture2D" uid="uid://b1lwpxok4gltd" path="res://Global/Audio/music.png" id="4_p6tld"]
+[ext_resource type="PackedScene" uid="uid://cw1c7kfnxxv88" path="res://Global/CRT/crt.tscn" id="5_npfyh"]
+
+[sub_resource type="Animation" id="Animation_7j2ej"]
+resource_name = "Loading"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DissolveRect/Label:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": ["Loading", "Loading.", "Loading..", "Loading..."]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("DissolveRect/Label:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_wc55h"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DissolveRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("DissolveRect/Label:text")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["Loading"]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("DissolveRect/Label:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_21rg2"]
+resource_name = "dissolve"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DissolveRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("DissolveRect/Label:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gpjm6"]
+_data = {
+"Loading": SubResource("Animation_7j2ej"),
+"RESET": SubResource("Animation_wc55h"),
+"dissolve": SubResource("Animation_21rg2")
+}
+
+[node name="Global" type="CanvasLayer"]
+process_mode = 3
+editor_description = "Has to be a Canvas Layer to ensure its drawn on top of everything else."
+script = ExtResource("1_8vygp")
+
+[node name="Click" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_gocb6")
+bus = &"SFX"
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+bus = &"Music"
+
+[node name="DissolveRect" type="ColorRect" parent="."]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="DissolveRect"]
+visible = false
+layout_mode = 0
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 434.0
+offset_top = -18.0
+offset_right = 508.0
+offset_bottom = 18.0
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Loading"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_gpjm6")
+}
+
+[node name="Settings" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -192.0
+offset_top = -102.0
+offset_right = 192.0
+offset_bottom = 102.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Settings"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Settings/VBoxContainer"]
+layout_mode = 2
+text = "Settings"
+horizontal_alignment = 1
+
+[node name="Control" type="GridContainer" parent="Settings/VBoxContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="SoundImage" type="TextureRect" parent="Settings/VBoxContainer/Control"]
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("3_txeuc")
+
+[node name="SoundSlider" type="HSlider" parent="Settings/VBoxContainer/Control"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="MusicImage" type="TextureRect" parent="Settings/VBoxContainer/Control"]
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("4_p6tld")
+
+[node name="MusicSlider" type="HSlider" parent="Settings/VBoxContainer/Control"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.05
+value = 0.6
+
+[node name="Fullscreen" type="CheckBox" parent="Settings/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Fullscreen"
+
+[node name="CRT" type="CheckBox" parent="Settings/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "CRT"
+
+[node name="CloseButton" type="Button" parent="Settings/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+text = "Close"
+
+[node name="CrtShader" parent="." instance=ExtResource("5_npfyh")]
+visible = false
+
+[node name="ConfigButton" type="TextureButton" parent="."]
+unique_name_in_owner = true
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -24.0
+offset_top = -24.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 8
+size_flags_vertical = 0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("3_wpa8s")

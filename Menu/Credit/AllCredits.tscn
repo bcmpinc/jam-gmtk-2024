@@ -1,0 +1,132 @@
+[gd_scene load_steps=10 format=3 uid="uid://bejp6ggs2jf2m"]
+
+[ext_resource type="PackedScene" uid="uid://b3d1xeh8kjd8j" path="res://Menu/Credit/Credit.tscn" id="1_pcvml"]
+[ext_resource type="Texture2D" uid="uid://d4jw8unpuvmxq" path="res://Menu/Credit/frogwizardhat.png" id="2_ifuys"]
+[ext_resource type="Texture2D" uid="uid://tflbiwspwnrr" path="res://Menu/Credit/mr_alias.png" id="2_n1ncj"]
+[ext_resource type="Texture2D" uid="uid://cehphcbgxxxi8" path="res://Menu/Credit/luko3.png" id="3_vlvm1"]
+[ext_resource type="Texture2D" uid="uid://ctemdyr6my7rw" path="res://Menu/Credit/pie.png" id="5_eecml"]
+[ext_resource type="Texture2D" uid="uid://tr8yacaqh57f" path="res://Menu/Credit/trey.png" id="6_4sikj"]
+[ext_resource type="Texture2D" uid="uid://cqvbr37y5xc5s" path="res://Menu/Credit/pixeltitan.png" id="7_pbgfi"]
+[ext_resource type="Texture2D" uid="uid://djid11d6ikhvs" path="res://Menu/Credit/robert_gaudreault.jpg" id="8_n1mcu"]
+[ext_resource type="Texture2D" uid="uid://dadpkmmfn4evq" path="res://Menu/Credit/jonas_newhouse.png" id="9_ibgwp"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_right = -40.0
+grow_horizontal = 0
+
+[node name="Artie" parent="." instance=ExtResource("1_pcvml")]
+layout_mode = 0
+offset_left = -335.0
+offset_top = 12.0
+offset_right = -79.0
+offset_bottom = 76.0
+author_name = "frogwizardhat"
+link = "https://frogwizardhat.itch.io/"
+author_image = ExtResource("2_ifuys")
+background_color = Color(0.784314, 0.74902, 0.905882, 1)
+author_scale = 1.068
+author_offset = Vector2(0, 5)
+name_scale = 1.0
+
+[node name="Alias" parent="." instance=ExtResource("1_pcvml")]
+layout_mode = 0
+offset_left = -892.0
+offset_top = 136.0
+offset_right = -636.0
+offset_bottom = 200.0
+author_name = "Mr Alias"
+link = "https://www.youtube.com/mralias"
+author_image = ExtResource("2_n1ncj")
+background_color = Color(0.917922, 0, 0.00390631, 1)
+author_scale = 0.846
+author_offset = Vector2(1, 2)
+name_scale = 1.0
+
+[node name="Luko" parent="." instance=ExtResource("1_pcvml")]
+layout_mode = 0
+offset_left = -881.0
+offset_top = 334.0
+offset_right = -625.0
+offset_bottom = 398.0
+author_name = "Luko3"
+link = "https://www.artstation.com/luko3artist"
+author_image = ExtResource("3_vlvm1")
+background_color = Color(1, 1, 1, 1)
+author_scale = 0.852
+author_offset = Vector2(1, 4)
+name_scale = 1.0
+
+[node name="Pie" parent="." instance=ExtResource("1_pcvml")]
+layout_mode = 0
+offset_left = -240.0
+offset_top = 91.0
+offset_right = 16.0
+offset_bottom = 155.0
+author_name = "bcmpinc"
+link = "https://bcmpinc.itch.io/"
+author_image = ExtResource("5_eecml")
+background_color = Color(0.952941, 0.784314, 0.972549, 1)
+author_scale = 1.0
+author_offset = Vector2(0, -5)
+name_scale = 1.0
+
+[node name="Trey" parent="." instance=ExtResource("1_pcvml")]
+layout_mode = 0
+offset_left = -835.0
+offset_top = 73.0
+offset_right = -579.0
+offset_bottom = 137.0
+author_name = "Trey Travis"
+link = "https://www.youtube.com/@treytravisSoundDesign"
+author_image = ExtResource("6_4sikj")
+background_color = Color(0.133364, 0.0977035, 0.117235, 1)
+author_scale = 0.895
+author_offset = Vector2(0, 1)
+name_scale = 1.0
+
+[node name="PixelTitan" parent="." instance=ExtResource("1_pcvml")]
+layout_mode = 0
+offset_left = -818.0
+offset_top = 394.0
+offset_right = -562.0
+offset_bottom = 458.0
+author_name = "PixelTitan"
+link = "https://pixel-titan.itch.io/"
+author_image = ExtResource("7_pbgfi")
+background_color = Color(0, 0, 0, 1)
+author_scale = 0.913
+author_offset = Vector2(1, 1)
+name_scale = 1.0
+
+[node name="Robert" parent="." instance=ExtResource("1_pcvml")]
+layout_mode = 0
+offset_left = -753.0
+offset_top = 463.0
+offset_right = -497.0
+offset_bottom = 527.0
+author_name = "Robert Gaudreault"
+link = "https://robertgaudreault.ca/"
+author_image = ExtResource("8_n1mcu")
+background_color = Color(0, 0, 0, 1)
+author_scale = 1.0
+author_offset = Vector2(-2, 0)
+name_scale = 0.945
+
+[node name="Jonas" parent="." instance=ExtResource("1_pcvml")]
+layout_mode = 0
+offset_left = -903.0
+offset_top = 13.0
+offset_right = -647.0
+offset_bottom = 77.0
+author_name = "Jonas Newhouse"
+link = "https://soundcloud.com/jonasfamiliaris"
+author_image = ExtResource("9_ibgwp")
+background_color = Color(0.419608, 0.372549, 0.509804, 1)
+author_scale = 0.649
+author_offset = Vector2(1, 2)
+name_scale = 1.0

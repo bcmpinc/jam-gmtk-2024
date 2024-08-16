@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://cw1c7kfnxxv88"]
+
+[ext_resource type="Shader" path="res://Global/CRT/crt.gdshader" id="1_i1kbl"]
+[ext_resource type="Texture2D" uid="uid://sxo7g5kufvki" path="res://Global/CRT/crt.png" id="2_o1pi4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_op662"]
+shader = ExtResource("1_i1kbl")
+shader_parameter/BLUR = false
+shader_parameter/CRT = true
+shader_parameter/crt_blur = Vector2(5, 3)
+shader_parameter/crt_resolution = Vector2(320, 240)
+shader_parameter/crt_curve = 0.02
+shader_parameter/crt_texture = ExtResource("2_o1pi4")
+
+[node name="CrtShader" type="ColorRect"]
+material = SubResource("ShaderMaterial_op662")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2

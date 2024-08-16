@@ -1,0 +1,559 @@
+[gd_scene load_steps=25 format=3 uid="uid://fwpgyd4yme8c"]
+
+[ext_resource type="Texture2D" uid="uid://b6ja5nr0w4vyb" path="res://Player/Player.png" id="1_dya56"]
+
+[sub_resource type="SkeletonModification2DFABRIK" id="SkeletonModification2DFABRIK_bil5v"]
+target_nodepath = NodePath("../Foot1")
+fabrik_data_chain_length = 2
+joint_data/0/bone_index = 11
+joint_data/0/bone2d_node = NodePath("Hip/LegUp1")
+joint_data/1/bone_index = 12
+joint_data/1/bone2d_node = NodePath("Hip/LegUp1/LegLow1")
+joint_data/1/magnet_position = Vector2(1, 0)
+joint_data/1/use_target_rotation = false
+
+[sub_resource type="SkeletonModification2DFABRIK" id="SkeletonModification2DFABRIK_5e8vk"]
+target_nodepath = NodePath("../Foot2")
+fabrik_data_chain_length = 2
+joint_data/0/bone_index = 14
+joint_data/0/bone2d_node = NodePath("Hip/LegUp2")
+joint_data/1/bone_index = 15
+joint_data/1/bone2d_node = NodePath("Hip/LegUp2/LegLow2")
+joint_data/1/magnet_position = Vector2(1, 0)
+joint_data/1/use_target_rotation = false
+
+[sub_resource type="SkeletonModification2DLookAt" id="SkeletonModification2DLookAt_crq8y"]
+bone_index = 13
+bone2d_node = NodePath("Hip/LegUp1/LegLow1/Foot1")
+target_nodepath = NodePath("../Foot1/Toe1")
+
+[sub_resource type="SkeletonModification2DLookAt" id="SkeletonModification2DLookAt_mcgal"]
+bone_index = 16
+bone2d_node = NodePath("Hip/LegUp2/LegLow2/Foot2")
+target_nodepath = NodePath("../Foot2/Toe2")
+
+[sub_resource type="SkeletonModification2DJiggle" id="SkeletonModification2DJiggle_e1spm"]
+target_nodepath = NodePath("../Hair")
+jiggle_data_chain_length = 3
+use_gravity = true
+joint_data/0/bone_index = 4
+joint_data/0/bone2d_node = NodePath("Hip/Body/Head/Hair1")
+joint_data/0/override_defaults = false
+joint_data/1/bone_index = 5
+joint_data/1/bone2d_node = NodePath("Hip/Body/Head/Hair1/Hair2")
+joint_data/1/override_defaults = false
+joint_data/2/bone_index = 6
+joint_data/2/bone2d_node = NodePath("Hip/Body/Head/Hair1/Hair2/Hair3")
+joint_data/2/override_defaults = false
+
+[sub_resource type="SkeletonModification2DFABRIK" id="SkeletonModification2DFABRIK_ygxqw"]
+target_nodepath = NodePath("../Hand1")
+fabrik_data_chain_length = 2
+joint_data/0/bone_index = 7
+joint_data/0/bone2d_node = NodePath("Hip/Body/ArmUp1")
+joint_data/1/bone_index = 8
+joint_data/1/bone2d_node = NodePath("Hip/Body/ArmUp1/ArmLow1")
+joint_data/1/magnet_position = Vector2(-1, 1)
+joint_data/1/use_target_rotation = false
+
+[sub_resource type="SkeletonModification2DFABRIK" id="SkeletonModification2DFABRIK_3ushg"]
+target_nodepath = NodePath("../Hand2")
+fabrik_data_chain_length = 2
+joint_data/0/bone_index = 9
+joint_data/0/bone2d_node = NodePath("Hip/Body/ArmUp2")
+joint_data/1/bone_index = 10
+joint_data/1/bone2d_node = NodePath("Hip/Body/ArmUp2/ArmLow2")
+joint_data/1/magnet_position = Vector2(-1, 1)
+joint_data/1/use_target_rotation = false
+
+[sub_resource type="SkeletonModificationStack2D" id="SkeletonModificationStack2D_0rs7n"]
+enabled = true
+modification_count = 7
+modifications/0 = SubResource("SkeletonModification2DFABRIK_bil5v")
+modifications/1 = SubResource("SkeletonModification2DFABRIK_5e8vk")
+modifications/2 = SubResource("SkeletonModification2DLookAt_crq8y")
+modifications/3 = SubResource("SkeletonModification2DLookAt_mcgal")
+modifications/4 = SubResource("SkeletonModification2DJiggle_e1spm")
+modifications/5 = SubResource("SkeletonModification2DFABRIK_ygxqw")
+modifications/6 = SubResource("SkeletonModification2DFABRIK_3ushg")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_prd14"]
+atlas = ExtResource("1_dya56")
+region = Rect2(16, 208, 136, 176)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ybxp"]
+atlas = ExtResource("1_dya56")
+region = Rect2(24, 48, 128, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wi8fu"]
+atlas = ExtResource("1_dya56")
+region = Rect2(152, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_og6a7"]
+atlas = ExtResource("1_dya56")
+region = Rect2(176, 88, 200, 88)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_smu3b"]
+atlas = ExtResource("1_dya56")
+region = Rect2(200, 200, 152, 104)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6e0vf"]
+atlas = ExtResource("1_dya56")
+region = Rect2(192, 344, 152, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l1s6s"]
+atlas = ExtResource("1_dya56")
+region = Rect2(184, 536, 136, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ljbvb"]
+atlas = ExtResource("1_dya56")
+region = Rect2(192, 640, 176, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qkkgb"]
+atlas = ExtResource("1_dya56")
+region = Rect2(184, 536, 136, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bf8ex"]
+atlas = ExtResource("1_dya56")
+region = Rect2(64, 408, 64, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_32y5e"]
+atlas = ExtResource("1_dya56")
+region = Rect2(48, 544, 80, 168)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wc55t"]
+atlas = ExtResource("1_dya56")
+region = Rect2(200, 24, 120, 56)
+
+[sub_resource type="Animation" id="Animation_rg71b"]
+resource_name = "Walk"
+length = 6.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Hair:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3, 6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(-184, -225), Vector2(-220, -374), Vector2(-184, -225)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Skeleton2D:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-3, 43), Vector2(-3, 43)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Hand2:position")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 3, 6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(-82, -153), Vector2(167, -257), Vector2(-82, -153)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Hand1:position")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 3, 6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(166, -229), Vector2(-67, -178), Vector2(166, -229)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Foot1:position")
+tracks/4/interp = 2
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 3, 6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(69, -2), Vector2(-133, -42), Vector2(69, -2)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Foot1/Toe1:position")
+tracks/5/interp = 2
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 3, 6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(82, 5), Vector2(68, 58), Vector2(82, 5)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Foot2:position")
+tracks/6/interp = 2
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 3, 6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(-126, -43), Vector2(118, -11), Vector2(-126, -43)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Foot2/Toe2:position")
+tracks/7/interp = 2
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 3, 6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(70, 66), Vector2(73, 4), Vector2(70, 66)]
+}
+
+[sub_resource type="Animation" id="Animation_sx2ad"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Hair:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0001),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-115, -238), Vector2(-184, -225)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Skeleton2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0001),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Hand2:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(8, -128)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Hand1:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(14, -137)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Foot1:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -1)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Foot1/Toe1:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(80, 4)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Foot2:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-2, -1)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Foot2/Toe2:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(82, 6)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5aog2"]
+_data = {
+"RESET": SubResource("Animation_sx2ad"),
+"Walk": SubResource("Animation_rg71b")
+}
+
+[node name="Player" type="Node2D"]
+
+[node name="Skeleton2D" type="Skeleton2D" parent="."]
+rotation = 0.00192105
+modification_stack = SubResource("SkeletonModificationStack2D_0rs7n")
+
+[node name="Hip" type="Bone2D" parent="Skeleton2D"]
+position = Vector2(2, -220)
+rest = Transform2D(1, 0, 0, 1, 2, -220)
+
+[node name="Body" type="Bone2D" parent="Skeleton2D/Hip"]
+position = Vector2(5, -139)
+rest = Transform2D(1, 0, 0, 1, 5, -139)
+
+[node name="Body" type="Sprite2D" parent="Skeleton2D/Hip/Body"]
+position = Vector2(-5, 139)
+texture = SubResource("AtlasTexture_prd14")
+offset = Vector2(6.41425, -68.9543)
+
+[node name="Head" type="Bone2D" parent="Skeleton2D/Hip/Body"]
+position = Vector2(1, -84)
+rest = Transform2D(1, 0, 0, 1, 1, -84)
+
+[node name="Head" type="Sprite2D" parent="Skeleton2D/Hip/Body/Head"]
+position = Vector2(3.73376, 83.0065)
+rotation = 0.00111703
+texture = SubResource("AtlasTexture_1ybxp")
+offset = Vector2(4, -62)
+
+[node name="Eye" type="Bone2D" parent="Skeleton2D/Hip/Body/Head"]
+position = Vector2(33, -8)
+rest = Transform2D(1, 0, 0, 1, 33, -8)
+auto_calculate_length_and_angle = false
+length = 8.0
+bone_angle = -15.652
+
+[node name="Eye" type="Sprite2D" parent="Skeleton2D/Hip/Body/Head/Eye"]
+position = Vector2(3.9966, 3.00446)
+rotation = 0.00111703
+texture = SubResource("AtlasTexture_wi8fu")
+offset = Vector2(-2, 1)
+
+[node name="Hair1" type="Bone2D" parent="Skeleton2D/Hip/Body/Head"]
+position = Vector2(-7, -33)
+rest = Transform2D(1, 0, 0, 1, -7, -33)
+metadata/_local_pose_override_enabled_ = true
+
+[node name="Hair1" type="Sprite2D" parent="Skeleton2D/Hip/Body/Head/Hair1"]
+position = Vector2(2.86222, 0.99765)
+rotation = 0.00111703
+texture = SubResource("AtlasTexture_og6a7")
+offset = Vector2(-60, 16)
+
+[node name="Hair2" type="Bone2D" parent="Skeleton2D/Hip/Body/Head/Hair1"]
+position = Vector2(-108, 10)
+rest = Transform2D(1, 0, 0, 1, -108, 10)
+metadata/_local_pose_override_enabled_ = true
+
+[node name="Hair2" type="Sprite2D" parent="Skeleton2D/Hip/Body/Head/Hair1/Hair2"]
+position = Vector2(2.85001, 1.87701)
+rotation = 0.00111703
+texture = SubResource("AtlasTexture_smu3b")
+offset = Vector2(-43, 3)
+
+[node name="Hair3" type="Bone2D" parent="Skeleton2D/Hip/Body/Head/Hair1/Hair2"]
+position = Vector2(-89, 4)
+rest = Transform2D(1, 0, 0, 1, -89, 4)
+auto_calculate_length_and_angle = false
+length = 81.222
+bone_angle = 175.764
+metadata/_local_pose_override_enabled_ = true
+
+[node name="Hair3" type="Sprite2D" parent="Skeleton2D/Hip/Body/Head/Hair1/Hair2/Hair3"]
+position = Vector2(4.84558, 1.77985)
+rotation = 0.00111703
+texture = SubResource("AtlasTexture_6e0vf")
+offset = Vector2(-24, -2)
+
+[node name="ArmUp1" type="Bone2D" parent="Skeleton2D/Hip/Body"]
+show_behind_parent = true
+z_index = -1
+rest = Transform2D(1, 0, 0, 1, 0, 0)
+metadata/_local_pose_override_enabled_ = true
+
+[node name="ArmUp1" type="Sprite2D" parent="Skeleton2D/Hip/Body/ArmUp1"]
+position = Vector2(4.99888, 1.00558)
+rotation = 0.00111703
+texture = SubResource("AtlasTexture_l1s6s")
+offset = Vector2(50, -2)
+
+[node name="ArmLow1" type="Bone2D" parent="Skeleton2D/Hip/Body/ArmUp1"]
+position = Vector2(99.314, 1.79512)
+rest = Transform2D(1, 0, 0, 1, 99.314, 1.79512)
+auto_calculate_length_and_angle = false
+length = 120.0
+bone_angle = 0.0
+metadata/_local_pose_override_enabled_ = true
+
+[node name="ArmLow2" type="Sprite2D" parent="Skeleton2D/Hip/Body/ArmUp1/ArmLow1"]
+position = Vector2(-1.58598, 0.890228)
+rotation = -0.00326611
+texture = SubResource("AtlasTexture_ljbvb")
+offset = Vector2(73.5616, 5.43048)
+
+[node name="ArmUp2" type="Bone2D" parent="Skeleton2D/Hip/Body"]
+z_index = 1
+rest = Transform2D(1, 0, 0, 1, 0, 0)
+metadata/_local_pose_override_enabled_ = true
+
+[node name="ArmUp2" type="Sprite2D" parent="Skeleton2D/Hip/Body/ArmUp2"]
+position = Vector2(5.99888, 1.00668)
+rotation = 0.00111703
+texture = SubResource("AtlasTexture_qkkgb")
+offset = Vector2(50, -1)
+
+[node name="ArmLow2" type="Bone2D" parent="Skeleton2D/Hip/Body/ArmUp2"]
+position = Vector2(99.314, 1.79512)
+rotation = -0.00438315
+rest = Transform2D(0.99999, -0.00438313, 0.00438313, 0.99999, 99.314, 1.79512)
+auto_calculate_length_and_angle = false
+length = 120.0
+bone_angle = -0.251135
+metadata/_local_pose_override_enabled_ = true
+
+[node name="ArmLow1" type="Sprite2D" parent="Skeleton2D/Hip/Body/ArmUp2/ArmLow2"]
+position = Vector2(-5.31714, 0.886749)
+rotation = 0.00111703
+texture = SubResource("AtlasTexture_ljbvb")
+offset = Vector2(75.2844, 6.41422)
+
+[node name="LegUp1" type="Bone2D" parent="Skeleton2D/Hip"]
+show_behind_parent = true
+rest = Transform2D(1, 0, 0, 1, 0, 0)
+metadata/_local_pose_override_enabled_ = true
+
+[node name="LegUp1" type="Sprite2D" parent="Skeleton2D/Hip/LegUp1"]
+texture = SubResource("AtlasTexture_bf8ex")
+offset = Vector2(-2, 37)
+
+[node name="LegLow1" type="Bone2D" parent="Skeleton2D/Hip/LegUp1"]
+position = Vector2(-2.27855, 75.0003)
+rest = Transform2D(1, 0, 0, 1, -2.27855, 75.0003)
+metadata/_local_pose_override_enabled_ = true
+
+[node name="LegLow1" type="Sprite2D" parent="Skeleton2D/Hip/LegUp1/LegLow1"]
+position = Vector2(0.0211315, 11)
+rotation = 0.00111703
+texture = SubResource("AtlasTexture_32y5e")
+offset = Vector2(-1, 49)
+
+[node name="Foot1" type="Bone2D" parent="Skeleton2D/Hip/LegUp1/LegLow1"]
+show_behind_parent = true
+position = Vector2(-3.72528, 143.007)
+rest = Transform2D(1, 0, 0, 1, -3.72528, 143.007)
+auto_calculate_length_and_angle = false
+length = 60.0
+bone_angle = 15.0
+metadata/_local_pose_override_enabled_ = true
+
+[node name="Foot1" type="Sprite2D" parent="Skeleton2D/Hip/LegUp1/LegLow1/Foot1"]
+position = Vector2(1, 0.00102615)
+rotation = 0.00111703
+texture = SubResource("AtlasTexture_wc55t")
+offset = Vector2(23, 2)
+
+[node name="LegUp2" type="Bone2D" parent="Skeleton2D/Hip"]
+rest = Transform2D(1, 0, 0, 1, 0, 0)
+metadata/_local_pose_override_enabled_ = true
+
+[node name="LegUp2" type="Sprite2D" parent="Skeleton2D/Hip/LegUp2"]
+texture = SubResource("AtlasTexture_bf8ex")
+offset = Vector2(-3, 37)
+
+[node name="LegLow2" type="Bone2D" parent="Skeleton2D/Hip/LegUp2"]
+position = Vector2(-2.27855, 75.0003)
+rest = Transform2D(1, 0, 0, 1, -2.27855, 75.0003)
+metadata/_local_pose_override_enabled_ = true
+
+[node name="LegLow2" type="Sprite2D" parent="Skeleton2D/Hip/LegUp2/LegLow2"]
+position = Vector2(-1.9731, 14.0038)
+rotation = 0.00111703
+texture = SubResource("AtlasTexture_32y5e")
+offset = Vector2(1, 46)
+
+[node name="Foot2" type="Bone2D" parent="Skeleton2D/Hip/LegUp2/LegLow2"]
+show_behind_parent = true
+position = Vector2(-3.72528, 143.007)
+rest = Transform2D(1, 0, 0, 1, -3.72528, 143.007)
+auto_calculate_length_and_angle = false
+length = 60.0
+bone_angle = 15.0
+metadata/_local_pose_override_enabled_ = true
+
+[node name="Foot2" type="Sprite2D" parent="Skeleton2D/Hip/LegUp2/LegLow2/Foot2"]
+position = Vector2(0.998882, 1.00101)
+rotation = 0.00111703
+texture = SubResource("AtlasTexture_wc55t")
+offset = Vector2(25, 4)
+
+[node name="Foot1" type="Marker2D" parent="."]
+position = Vector2(0, -1)
+
+[node name="Toe1" type="Marker2D" parent="Foot1"]
+position = Vector2(80, 4)
+
+[node name="Foot2" type="Marker2D" parent="."]
+position = Vector2(-2, -1)
+
+[node name="Toe2" type="Marker2D" parent="Foot2"]
+position = Vector2(82, 6)
+
+[node name="Hair" type="Marker2D" parent="."]
+position = Vector2(-115, -238)
+
+[node name="Hand1" type="Marker2D" parent="."]
+position = Vector2(14, -137)
+rotation = 0.00192105
+
+[node name="Hand2" type="Marker2D" parent="."]
+position = Vector2(8, -128)
+rotation = 0.00192105
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_5aog2")
+}
+blend_times = [&"Walk", &"RESET", 1.0, &"Walk", &"Walk", 1.0]

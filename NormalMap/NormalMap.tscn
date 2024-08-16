@@ -1,0 +1,35 @@
+[gd_scene load_steps=7 format=3 uid="uid://bj7tywgqsjj8e"]
+
+[ext_resource type="Texture2D" uid="uid://dblfpny3wddbw" path="res://NormalMap/Chickin.png" id="1_pvebk"]
+[ext_resource type="Texture2D" uid="uid://cgxqxrdqr58yd" path="res://NormalMap/Chickin_Height.png" id="2_pvhvb"]
+[ext_resource type="Script" path="res://NormalMap/PointLight2D.gd" id="3_us5kl"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_u78na"]
+diffuse_texture = ExtResource("1_pvebk")
+normal_texture = ExtResource("2_pvhvb")
+
+[sub_resource type="Gradient" id="Gradient_jtxmv"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0.395833, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_hpu3c"]
+gradient = SubResource("Gradient_jtxmv")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0, 0.5)
+
+[node name="Node2D" type="Node"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(476, 272)
+texture = SubResource("CanvasTexture_u78na")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(372, 261)
+scale = Vector2(6.09375, 6.09375)
+texture = SubResource("GradientTexture2D_hpu3c")
+script = ExtResource("3_us5kl")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.249851, 0.249851, 0.249851, 1)

@@ -1,0 +1,65 @@
+[gd_scene load_steps=7 format=3 uid="uid://bl7y2f3jrlhq3"]
+
+[ext_resource type="Shader" path="res://Menu/Menu.gdshader" id="1_g6hds"]
+[ext_resource type="Texture2D" uid="uid://wafqk3kleohn" path="res://Menu/leaves-8724660_640.jpg" id="2_rfvgw"]
+[ext_resource type="Script" path="res://Menu/Menu.gd" id="3_psqow"]
+[ext_resource type="Texture2D" uid="uid://cxelf535oafv7" path="res://Menu/cat-8863536_640.png" id="4_t7t41"]
+[ext_resource type="PackedScene" uid="uid://bejp6ggs2jf2m" path="res://Menu/Credit/AllCredits.tscn" id="5_yyxgg"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d23pp"]
+shader = ExtResource("1_g6hds")
+shader_parameter/motion = Vector2(8, 8)
+shader_parameter/scale = 1.0
+shader_parameter/transform = Transform2D(1, -0.3, 0.3, 1, 0, 0)
+
+[node name="TitleScreen" type="TextureRect"]
+material = SubResource("ShaderMaterial_d23pp")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_rfvgw")
+expand_mode = 1
+stretch_mode = 1
+script = ExtResource("3_psqow")
+game = "res://TheGame.tscn"
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 212.0
+offset_top = -57.0
+offset_right = 349.36
+offset_bottom = 46.0
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.564706, 0.309804, 0.627451, 1)
+theme_override_colors/font_outline_color = Color(0.972549, 0.858824, 0.729412, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 64
+text = "Play!"
+
+[node name="Cat-8863536640" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -396.0
+offset_top = -285.0
+offset_right = 244.0
+offset_bottom = 320.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(0.457025, 0.457025)
+texture = ExtResource("4_t7t41")
+
+[node name="Control" parent="." instance=ExtResource("5_yyxgg")]
+layout_mode = 1
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
