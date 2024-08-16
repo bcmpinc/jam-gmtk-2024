@@ -6,9 +6,10 @@ extends TextureRect
 func _ready():
 	Global.music.stream = load("res://Menu/copyright-free-background-music-216517.mp3")
 	ResourceLoader.load_threaded_request(game, "PackedScene")
-
-func _on_button_pressed():
-	Global.change_scene_to_file(game)
-
-func _on_rich_text_label_meta_clicked(meta):
-	OS.shell_open(meta)
+	
+	$Platform.pressed.connect(func():
+		Global.change_scene_to_file("res://Game/Platformer/World.tscn")
+	)
+	$Tower.pressed.connect(func():
+		Global.change_scene_to_file("res://Game/TowerDefense/TowerDefense.tscn")
+	)

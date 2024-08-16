@@ -1,19 +1,105 @@
-[gd_scene load_steps=4 format=3 uid="uid://ca6guqrgbh6kx"]
+[gd_scene load_steps=8 format=3 uid="uid://ca6guqrgbh6kx"]
 
 [ext_resource type="Script" path="res://Game/TowerDefense/tower_defense.gd" id="1_dm75f"]
 [ext_resource type="Texture2D" uid="uid://h5u8c1f4qap1" path="res://icon.svg" id="2_dimbm"]
+[ext_resource type="Texture2D" uid="uid://dft7kro3vwtf2" path="res://Game/TowerDefense/Tower/BW_Building.png" id="2_peddx"]
 [ext_resource type="PackedScene" uid="uid://dp0tb5rrt8g64" path="res://Game/TowerDefense/Enemies/Enemy.tscn" id="3_15v8s"]
+
+[sub_resource type="Animation" id="Animation_u5ytb"]
+resource_name = "Slide"
+length = 8.0
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera2D:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, -100), Vector2(0, 300)]
+}
+
+[sub_resource type="Animation" id="Animation_oulwe"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_g1l0e"]
+_data = {
+"RESET": SubResource("Animation_oulwe"),
+"Slide": SubResource("Animation_u5ytb")
+}
 
 [node name="TowerDefense" type="Node"]
 script = ExtResource("1_dm75f")
 
+[node name="Buildings1" type="Parallax2D" parent="."]
+scroll_scale = Vector2(1, 0.35)
+
+[node name="BwBuilding2" type="Sprite2D" parent="Buildings1"]
+position = Vector2(130.125, 47.375)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_peddx")
+
+[node name="BwBuilding3" type="Sprite2D" parent="Buildings1"]
+position = Vector2(71.125, 59.375)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_peddx")
+
+[node name="BwBuilding4" type="Sprite2D" parent="Buildings1"]
+position = Vector2(102.125, 45.375)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_peddx")
+
+[node name="Buildings2" type="Parallax2D" parent="."]
+scroll_scale = Vector2(1, 0.5)
+
+[node name="BwBuilding3" type="Sprite2D" parent="Buildings2"]
+position = Vector2(144, 85)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_peddx")
+
+[node name="Enemy" parent="Buildings2" instance=ExtResource("3_15v8s")]
+position = Vector2(141, -18)
+
+[node name="Buildings3" type="Parallax2D" parent="."]
+scroll_scale = Vector2(1, 0.7)
+
+[node name="BwBuilding" type="Sprite2D" parent="Buildings3"]
+position = Vector2(64, 131)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("2_peddx")
+
 [node name="Tower" type="Node2D" parent="."]
 position = Vector2(160, 238)
 
+[node name="BwBuilding2" type="Sprite2D" parent="Tower"]
+position = Vector2(-293, -70)
+texture = ExtResource("2_peddx")
+
 [node name="TowerSprite" type="Sprite2D" parent="Tower"]
-position = Vector2(7.62939e-06, 0)
+position = Vector2(-304, -262)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_dimbm")
 
-[node name="Enemy" parent="." instance=ExtResource("3_15v8s")]
-position = Vector2(311, 96)
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_g1l0e")
+}
+autoplay = "Slide"
