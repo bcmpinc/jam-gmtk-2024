@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://ca6guqrgbh6kx"]
+
+[ext_resource type="Script" path="res://Game/TowerDefense/tower_defense.gd" id="1_dm75f"]
+[ext_resource type="Texture2D" uid="uid://h5u8c1f4qap1" path="res://icon.svg" id="2_dimbm"]
+
+[node name="TowerDefense" type="Node"]
+script = ExtResource("1_dm75f")
+
+[node name="Tower" type="Node2D" parent="."]
+position = Vector2(160, 216)
+
+[node name="TowerSprite" type="Sprite2D" parent="Tower"]
+position = Vector2(7.62939e-06, 0)
+texture = ExtResource("2_dimbm")
