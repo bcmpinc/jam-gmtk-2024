@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://c87y2wk4xbkab"]
+
+[ext_resource type="Script" path="res://Game/TowerDefense/Bullets/bullet.gd" id="1_fjf5u"]
+[ext_resource type="Texture2D" uid="uid://h5u8c1f4qap1" path="res://icon.svg" id="2_xc5la"]
+
+[node name="Bullet" type="Node2D"]
+script = ExtResource("1_fjf5u")
+
+[node name="Icon" type="Sprite2D" parent="."]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("2_xc5la")

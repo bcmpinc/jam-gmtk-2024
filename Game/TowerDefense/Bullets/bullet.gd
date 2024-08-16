@@ -1,4 +1,4 @@
-extends Node2D
+class_name Bullet extends Node2D
 
 @export var direction : float = 0.0
 var speed : float = 10
