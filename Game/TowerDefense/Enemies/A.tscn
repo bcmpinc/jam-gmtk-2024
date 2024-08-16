@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://6hh0604f6iyu"]
+
+[ext_resource type="Script" path="res://Game/TowerDefense/Enemies/enemy.gd" id="1_gh5ir"]
+
+[node name="A" type="Node2D"]
+script = ExtResource("1_gh5ir")
+health = 10
