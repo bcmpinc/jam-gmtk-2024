@@ -1,0 +1,84 @@
+[gd_scene load_steps=11 format=3 uid="uid://dpb8oud11mweg"]
+
+[ext_resource type="Script" path="res://Game/Platformer/Player/player.gd" id="1_r3qvy"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6m4a6"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_68r1n"]
+radius = 8.0
+height = 24.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fey0o"]
+radius = 4.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2fhd1"]
+radius = 4.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_k4rb7"]
+radius = 8.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_l0p0t"]
+radius = 2.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_oq5pq"]
+radius = 4.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gw63c"]
+radius = 4.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xtlpm"]
+radius = 2.0
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("camera_center", "player_sprite", "ledge_grab", "space_check", "floor_check")]
+script = ExtResource("1_r3qvy")
+camera_center = NodePath("CameraCenter")
+player_sprite = NodePath("AnimatedSprite2D")
+ledge_grab = NodePath("LedgeGrabArea")
+space_check = NodePath("LedgeClipDetector")
+floor_check = NodePath("FloorDetector")
+
+[node name="CameraCenter" type="Node2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_6m4a6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_68r1n")
+
+[node name="LedgeGrabArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LedgeGrabArea"]
+position = Vector2(8, -8)
+shape = SubResource("CircleShape2D_fey0o")
+
+[node name="LedgeClipDetector" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LedgeClipDetector"]
+position = Vector2(8, -20)
+shape = SubResource("CircleShape2D_2fhd1")
+
+[node name="InteractArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea"]
+position = Vector2(0, 4)
+shape = SubResource("CircleShape2D_k4rb7")
+
+[node name="FloorDetector" type="Area2D" parent="."]
+
+[node name="FloorCheck" type="CollisionShape2D" parent="FloorDetector"]
+position = Vector2(20, 12)
+shape = SubResource("CircleShape2D_l0p0t")
+
+[node name="SpaceCheck1" type="CollisionShape2D" parent="FloorDetector"]
+position = Vector2(20, 0)
+shape = SubResource("CircleShape2D_oq5pq")
+
+[node name="SpaceCheck2" type="CollisionShape2D" parent="FloorDetector"]
+position = Vector2(12, 12)
+shape = SubResource("CircleShape2D_gw63c")
+
+[node name="HandDetector" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HandDetector"]
+position = Vector2(6, 0)
+shape = SubResource("CircleShape2D_xtlpm")

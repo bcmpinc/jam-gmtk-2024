@@ -1,0 +1,16 @@
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://cu1wmbhm4bn38"]
+
+[ext_resource type="Texture2D" uid="uid://dg5tyq6bs2ly2" path="res://Game/Platformer/placeholder_tileset.png" id="1_e8gvv"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_df4wr"]
+texture = ExtResource("1_e8gvv")
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+
+[resource]
+resource_name = "Placeholder Tileset"
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_df4wr")
