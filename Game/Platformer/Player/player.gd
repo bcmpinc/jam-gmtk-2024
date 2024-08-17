@@ -98,7 +98,6 @@ func _physics_process(delta: float) -> void:
 	
 	var direction := Input.get_axis("left", "right")
 	if direction:
-	
 		look_time = 0.0
 		if not state == State.LATCH:
 			player_sprite.flip_h = direction < 0
@@ -113,18 +112,23 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.x = lerp(velocity.x, 0.0, delta * 10)
 	
-	if Input.is_action_just_released("left") or Input.is_action_just_released("right"):
-		if double_tap_last_seen >= 0.0 and last_tapped_direction == direction:
-			for i in range(8, 0, -1):
-				var cur_spot = tm.get_cell_atlas_coords(tm.local_to_map(position) + Vector2i(i, 0))
+	var last_pressed_dir = null
+	for i in ["left", "right"]:
+		if Input.is_action_just_released(i):
+			last_pressed_dir = [-1, 1][["left", "right"].find(i)]
+	if last_pressed_dir:
+		print(last_pressed_dir)
+		if double_tap_last_seen >= 0.0 and last_tapped_direction == last_pressed_dir:
+			for i in range(6, 0, -1):
+				var cur_spot = tm.get_cell_atlas_coords(tm.local_to_map(position) + Vector2i(i*last_pressed_dir, 0))
 				if cur_spot == Vector2i(-1, -1):
-					position = tm.map_to_local(tm.local_to_map(position) + Vector2i(i, 0))
+					position = tm.map_to_local(tm.local_to_map(position) + Vector2i(i*last_pressed_dir, 0))
 					double_tap_last_seen = 0.0
 					last_tapped_direction = 0.0
 					break
 		else:
 			double_tap_last_seen = dash_cooldown
-			last_tapped_direction = direction
+			last_tapped_direction = last_pressed_dir
 
 	if Input.is_action_pressed("up"):
 		if ladder_behind and abs(position.x - tm.map_to_local(tm.local_to_map(position)).x) < 3:
