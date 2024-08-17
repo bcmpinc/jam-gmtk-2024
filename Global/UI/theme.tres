@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://bge68uvy4w1ny" path="res://Global/UI/button.png" id="1_hm6hn"]
 [ext_resource type="Texture2D" uid="uid://dctejvp7jqcbf" path="res://Global/UI/button-hover.png" id="2_h5j6n"]
 [ext_resource type="Texture2D" uid="uid://dag713bfoubfa" path="res://Global/UI/button-press.png" id="3_2hopw"]
-[ext_resource type="FontFile" uid="uid://cotf0wwtvafs0" path="res://Global/UI/IndieFlower-Regular.ttf" id="4_s4pxm"]
+[ext_resource type="FontFile" uid="uid://c32kucetvm2fc" path="res://Global/UI/m5x7.ttf" id="4_kkhj4"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xfoor"]
 content_margin_left = 8.0
@@ -96,7 +96,7 @@ corner_radius_bottom_left = 16
 corner_detail = 4
 
 [resource]
-default_font = ExtResource("4_s4pxm")
+default_font = ExtResource("4_kkhj4")
 default_font_size = 24
 Button/colors/font_color = Color(0, 0, 0, 1)
 Button/colors/font_focus_color = Color(0.4, 0.211765, 0.105882, 1)
