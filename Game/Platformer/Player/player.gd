@@ -113,7 +113,7 @@ func _physics_process(delta: float) -> void:
 			floor_check.scale.x = direction
 			player_sprite.animation = "run"
 			if len(skip_tiles) == 0 and len(next_ground_tile) > 0 and is_on_floor() and abs(velocity.x) > 50:
-				velocity.y -= 40
+				velocity.y -= 100
 	else:
 		velocity.x = lerp(velocity.x, 0.0, delta * 10)
 	

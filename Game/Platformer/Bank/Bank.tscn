@@ -1,7 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://bjekmgn06ch0x"]
+[gd_scene load_steps=16 format=3 uid="uid://bjekmgn06ch0x"]
 
 [ext_resource type="Script" path="res://Game/Platformer/Bank/bank.gd" id="1_dqgmc"]
-[ext_resource type="Texture2D" uid="uid://bqig4wk6xkg4n" path="res://Game/Platformer/Upgrades/upgrades.png" id="2_w30k7"]
+[ext_resource type="Texture2D" uid="uid://qle70ba3rfaj" path="res://Game/Platformer/elec_bank.png" id="2_aqdkx"]
+[ext_resource type="Texture2D" uid="uid://cwkraho5l435q" path="res://Game/Platformer/goo_bank.png" id="3_b28xx"]
 [ext_resource type="PackedScene" uid="uid://bfoqdma576a48" path="res://Global/UI/TweenableLabel/TweenableLabel.tscn" id="3_xpbvh"]
 [ext_resource type="Theme" uid="uid://bwekckjgabm36" path="res://Global/UI/theme.tres" id="4_qwxux"]
 [ext_resource type="FontFile" uid="uid://cjebqaobshgr4" path="res://Global/UI/NotJamSciMono10.ttf" id="5_gacm0"]
@@ -11,21 +12,13 @@
 [ext_resource type="AudioStream" uid="uid://c2kqf3xj6tw76" path="res://Global/Audio/UI/UI_ResourcePickup4.wav" id="9_pkrfs"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b5t8b"]
-size = Vector2(32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_877cy"]
-atlas = ExtResource("2_w30k7")
-region = Rect2(48, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ilpjd"]
-atlas = ExtResource("2_w30k7")
-region = Rect2(0, 0, 16, 16)
+size = Vector2(26, 47)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_hcjm7"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_877cy")
+"texture": ExtResource("2_aqdkx")
 }],
 "loop": true,
 "name": &"Electricity",
@@ -33,7 +26,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ilpjd")
+"texture": ExtResource("3_b28xx")
 }],
 "loop": true,
 "name": &"Goo",
@@ -69,9 +62,8 @@ label = NodePath("TweenableLabel")
 shape = SubResource("RectangleShape2D_b5t8b")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_hcjm7")
-animation = &"Electricity"
+animation = &"Goo"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -80,9 +72,9 @@ libraries = {
 
 [node name="TweenableLabel" parent="." instance=ExtResource("3_xpbvh")]
 offset_left = -16.0
-offset_top = -26.0
+offset_top = -33.0
 offset_right = 16.0
-offset_bottom = -17.0
+offset_bottom = -24.0
 theme = ExtResource("4_qwxux")
 theme_override_fonts/normal_font = ExtResource("5_gacm0")
 theme_override_font_sizes/normal_font_size = 10
