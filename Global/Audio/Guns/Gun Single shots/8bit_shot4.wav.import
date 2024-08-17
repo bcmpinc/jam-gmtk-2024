@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cl4ub22pkxxvq"
+path="res://.godot/imported/8bit_shot4.wav-b37811fabc6e1e588ac70d2ca44858cb.sample"
+
+[deps]
+
+source_file="res://Global/Audio/Guns/Gun Single shots/8bit_shot4.wav"
+dest_files=["res://.godot/imported/8bit_shot4.wav-b37811fabc6e1e588ac70d2ca44858cb.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

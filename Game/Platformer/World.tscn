@@ -86,3 +86,4 @@ station_type = "Explosive"
 
 [node name="Bank" parent="." instance=ExtResource("8_nrsgr")]
 position = Vector2(459, 127)
+bank_type = "Goo"

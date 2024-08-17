@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://3acj06wdfyio"
+path="res://.godot/imported/GattlingGun_looped2.wav-38596ff9f149e54d9e04cd37a9ef4a1f.sample"
+
+[deps]
+
+source_file="res://Global/Audio/Guns/gattling gun looped/GattlingGun_looped2.wav"
+dest_files=["res://.godot/imported/GattlingGun_looped2.wav-38596ff9f149e54d9e04cd37a9ef4a1f.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

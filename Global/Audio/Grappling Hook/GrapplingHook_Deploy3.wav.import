@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://56onggpr6blo"
+path="res://.godot/imported/GrapplingHook_Deploy3.wav-109f151032aff29ca6a3cbd98784f687.sample"
+
+[deps]
+
+source_file="res://Global/Audio/Grappling Hook/GrapplingHook_Deploy3.wav"
+dest_files=["res://.godot/imported/GrapplingHook_Deploy3.wav-109f151032aff29ca6a3cbd98784f687.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

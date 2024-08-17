@@ -12,15 +12,16 @@ var coffers := 10
 @export var sprite : AnimatedSprite2D
 @export var area : Area2D
 @export var anim : AnimationPlayer
-
+@export var label : TweenLabel
 
 func _ready() -> void:
+	label.displayed_value = coffers * 100
 	sprite.animation = bank_type
 	match bank_type:
 		"Goo":
-			$TweenableLabel.add_theme_color_override("default_color", Color.hex(0xD3E549))
+			label.add_theme_color_override("default_color", Color(0xD3E549))
 		"Electricity":
-			$TweenableLabel.add_theme_color_override("default_color", Color.hex(0xFBC531))
+			label.add_theme_color_override("default_color", Color(0xFBC531))
 
 
 func _process(delta: float) -> void:
@@ -29,4 +30,5 @@ func _process(delta: float) -> void:
 		for item in overlapping:
 			if item is Player:
 				pay_player.emit(bank_type, coffers)
+				label.update(0)
 				has_been_used = true

@@ -184,7 +184,7 @@ func _on_ledge_clip_detector_body_exited(_body: Node2D) -> void:
 
 func _on_interact_area_body_entered(body: Node2D) -> void:
 	if not body == tm:
-		print(body)
+		pass
 
 
 func _on_floor_detector_body_shape_entered(_body_rid: RID, body: Node2D, _body_shape_index: int, local_shape_index: int) -> void:
@@ -213,4 +213,4 @@ func _on_ledge_grab_area_body_exited(_body: Node2D) -> void:
 
 func _on_interact_area_area_entered(area: Area2D) -> void:
 	if not area == tm:
-		print(area)
+		pass
