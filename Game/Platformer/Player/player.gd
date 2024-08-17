@@ -2,6 +2,9 @@ extends CharacterBody2D
 
 enum State {FALL, CLIMB, LATCH, GRAPPLE}
 
+@onready var grapple : PackedScene = preload("res://Game/Platformer/Player/HookGrapple.tscn")
+const printstates = ["Fall", "Climb", "Latch", "Grapple"]
+
 @export var tm : TileMapLayer
 var active_grapple : Node = null
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -10,9 +13,9 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var state = State.FALL
 var dir := Vector2.ZERO
 
-const SPEED = 80.0
+const SPEED = 180.0
 const INERTIA = 48.0
-const JUMP_VELOCITY = -300.0
+const JUMP_VELOCITY = -280.0
 
 var coyote_time := 0.0
 var look_time := 0.0
@@ -26,6 +29,7 @@ var ladder_top = Vector2i(1, 0)
 
 var skip_tiles := []
 var next_ground_tile := []
+var detector_list := []
 
 signal hit
 
@@ -36,6 +40,7 @@ signal hit
 @export var space_check : Area2D
 @export var floor_check : Area2D
 
+
 func _process(delta: float) -> void:
 	ladder_behind = false
 	for i in [-3, 0, 2]:
@@ -44,9 +49,9 @@ func _process(delta: float) -> void:
 			break
 	if abs(look_time) > 0.8:
 		if look_time > 0:
-			camera_center.position.y = lerp(camera_center.position.y, -32.0, 0.2)
+			camera_center.position.y = lerp(camera_center.position.y, -128.0, 0.2)
 		if look_time < 0:
-			camera_center.position.y = lerp(camera_center.position.y, 32.0, 0.2)
+			camera_center.position.y = lerp(camera_center.position.y, 128.0, 0.2)
 	else:
 		camera_center.position.y = lerp(camera_center.position.y, 0.0, 0.2)
 
@@ -65,7 +70,7 @@ func _physics_process(delta: float) -> void:
 		player_sprite.animation = "jump"
 		velocity.y += gravity * delta
 
-	if Input.is_action_just_pressed("accept") and is_on_floor():
+	if Input.is_action_just_pressed("accept"):
 		look_time = 0.0
 		if state == State.LATCH and Input.is_action_pressed("down"):
 			state = State.FALL
@@ -77,7 +82,8 @@ func _physics_process(delta: float) -> void:
 				velocity.y += JUMP_VELOCITY
 		elif len(get_tree().get_nodes_in_group("grapples")) == 0:
 			shoot_grapple()
-		velocity.y = JUMP_VELOCITY
+		
+	
 	
 	if Input.is_action_just_released("accept"):
 		detatch_from_grapple()
@@ -144,7 +150,59 @@ func _physics_process(delta: float) -> void:
 
 
 func detatch_from_grapple():
-	pass
+	if active_grapple != null:
+		if active_grapple.state == active_grapple.State.LATCH:
+			velocity = active_grapple.player_holder.linear_velocity
+		state = State.FALL
+		active_grapple.change_state(active_grapple.State.RETRACT)
+		active_grapple = null
+
 
 func shoot_grapple():
-	pass
+	var cur_grap = grapple.instantiate()
+	cur_grap.target = self
+	active_grapple = cur_grap
+	get_parent().add_child(cur_grap)
+
+
+func try_latch():
+	if $LedgeGrabArea.has_overlapping_bodies() and not is_on_floor() and state != State.CLIMB and not $LedgeClipDetector.has_overlapping_bodies():
+		detatch_from_grapple()
+		state = State.LATCH
+		velocity = Vector2.ZERO
+		position.y = snapped(position.y - 8, 16) + 8
+		position.x = tm.map_to_local(tm.local_to_map(position)).x
+		player_sprite.animation = "latch"
+
+
+func _on_ledge_grab_area_body_shape_entered(body_rid: RID, body: Node2D, body_shape_index: int, local_shape_index: int) -> void:
+	if body == tm:
+		try_latch()
+
+func _on_ledge_grab_area_body_shape_exited(body_rid: RID, body: Node2D, body_shape_index: int, local_shape_index: int) -> void:
+	if state == State.LATCH:
+		state = State.FALL
+
+
+func _on_ledge_clip_detector_body_exited(body: Node2D) -> void:
+	try_latch()
+
+
+func _on_interact_area_body_entered(body: Node2D) -> void:
+	if not body == tm:
+		print(body)
+
+
+func _on_floor_detector_body_shape_entered(body_rid: RID, body: Node2D, body_shape_index: int, local_shape_index: int) -> void:
+	if local_shape_index == 0:
+		next_ground_tile.append(body)
+	if local_shape_index > 0:
+		skip_tiles.append(body)
+
+
+
+func _on_floor_detector_body_shape_exited(body_rid: RID, body: Node2D, body_shape_index: int, local_shape_index: int) -> void:
+	if local_shape_index == 0 and body in next_ground_tile:
+		next_ground_tile.erase(body)
+	if local_shape_index > 0 and body in skip_tiles:
+		skip_tiles.erase(body)

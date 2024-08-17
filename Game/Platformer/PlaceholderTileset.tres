@@ -7,10 +7,12 @@ texture = ExtResource("1_e8gvv")
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 1:0/0 = 0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, -6.1875, -8, -6.125)
 0:1/0 = 0
 1:1/0 = 0
 
 [resource]
 resource_name = "Placeholder Tileset"
-physics_layer_0/collision_layer = 1
+physics_layer_0/collision_layer = 3
+physics_layer_0/collision_mask = 3
 sources/0 = SubResource("TileSetAtlasSource_df4wr")

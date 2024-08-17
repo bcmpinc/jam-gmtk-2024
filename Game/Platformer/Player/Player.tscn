@@ -1,21 +1,47 @@
-[gd_scene load_steps=11 format=3 uid="uid://dpb8oud11mweg"]
+[gd_scene load_steps=10 format=3 uid="uid://dpb8oud11mweg"]
 
 [ext_resource type="Script" path="res://Game/Platformer/Player/player.gd" id="1_r3qvy"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_6m4a6"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"climb",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"latch",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"run",
+"speed": 5.0
+}]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_68r1n"]
-radius = 8.0
+radius = 7.5
 height = 24.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fey0o"]
-radius = 4.0
+radius = 2.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_2fhd1"]
-radius = 4.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_kc1kn"]
+radius = 2.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_k4rb7"]
-radius = 8.0
+radius = 7.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_l0p0t"]
 radius = 2.0
@@ -26,10 +52,7 @@ radius = 4.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_gw63c"]
 radius = 4.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_xtlpm"]
-radius = 2.0
-
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("camera_center", "player_sprite", "ledge_grab", "space_check", "floor_check")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("camera_center", "player_sprite", "ledge_grab", "space_check", "floor_check") groups=["player"]]
 script = ExtResource("1_r3qvy")
 camera_center = NodePath("CameraCenter")
 player_sprite = NodePath("AnimatedSprite2D")
@@ -41,23 +64,26 @@ floor_check = NodePath("FloorDetector")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_6m4a6")
+animation = &"jump"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["player"]]
 shape = SubResource("CapsuleShape2D_68r1n")
 
 [node name="LedgeGrabArea" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LedgeGrabArea"]
-position = Vector2(8, -8)
+position = Vector2(10, -10)
 shape = SubResource("CircleShape2D_fey0o")
 
 [node name="LedgeClipDetector" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LedgeClipDetector"]
-position = Vector2(8, -20)
-shape = SubResource("CircleShape2D_2fhd1")
+position = Vector2(10, -18)
+shape = SubResource("CircleShape2D_kc1kn")
 
 [node name="InteractArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 15
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea"]
 position = Vector2(0, 4)
@@ -77,8 +103,9 @@ shape = SubResource("CircleShape2D_oq5pq")
 position = Vector2(12, 12)
 shape = SubResource("CircleShape2D_gw63c")
 
-[node name="HandDetector" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HandDetector"]
-position = Vector2(6, 0)
-shape = SubResource("CircleShape2D_xtlpm")
+[connection signal="body_shape_entered" from="LedgeGrabArea" to="." method="_on_ledge_grab_area_body_shape_entered"]
+[connection signal="body_shape_exited" from="LedgeGrabArea" to="." method="_on_ledge_grab_area_body_shape_exited"]
+[connection signal="body_exited" from="LedgeClipDetector" to="." method="_on_ledge_clip_detector_body_exited"]
+[connection signal="body_entered" from="InteractArea" to="." method="_on_interact_area_body_entered"]
+[connection signal="body_shape_entered" from="FloorDetector" to="." method="_on_floor_detector_body_shape_entered"]
+[connection signal="body_shape_exited" from="FloorDetector" to="." method="_on_floor_detector_body_shape_exited"]

@@ -1,0 +1,57 @@
+[gd_scene load_steps=6 format=3 uid="uid://ce4gttc5tqc8g"]
+
+[ext_resource type="Script" path="res://Game/Platformer/Player/hook_grapple.gd" id="1_hsbeg"]
+[ext_resource type="Texture2D" uid="uid://bn33jm1s3ikrg" path="res://Game/Platformer/Player/placeholder_grapple.png" id="2_fekhi"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1tk6f"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4o7pv"]
+radius = 1.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_puwf1"]
+radius = 4.0
+
+[node name="HookGrapple" type="RigidBody2D" node_paths=PackedStringArray("player_holder", "spring", "chain_texture", "collision_detector") groups=["grapples"]]
+texture_filter = 1
+collision_layer = 0
+collision_mask = 0
+lock_rotation = true
+script = ExtResource("1_hsbeg")
+player_holder = NodePath("RigidBody2D")
+spring = NodePath("DampedSpringJoint2D")
+chain_texture = NodePath("TextureRect")
+collision_detector = NodePath("Area2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_1tk6f")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_4o7pv")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 8.0
+pivot_offset = Vector2(4, 0)
+texture = ExtResource("2_fekhi")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="DampedSpringJoint2D" type="DampedSpringJoint2D" parent="."]
+node_a = NodePath("..")
+node_b = NodePath("../RigidBody2D")
+length = 2.0
+rest_length = 2.0
+stiffness = 64.0
+damping = 16.0
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+lock_rotation = true
+angular_damp = 0.2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+shape = SubResource("CircleShape2D_puwf1")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
