@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://ca6guqrgbh6kx"]
+[gd_scene load_steps=8 format=3 uid="uid://ca6guqrgbh6kx"]
 
 [ext_resource type="Script" path="res://Game/TowerDefense/tower_defense.gd" id="1_dm75f"]
 [ext_resource type="Texture2D" uid="uid://h5u8c1f4qap1" path="res://icon.svg" id="2_dimbm"]
 [ext_resource type="Texture2D" uid="uid://dft7kro3vwtf2" path="res://Game/TowerDefense/Tower/BW_Building.png" id="2_peddx"]
+[ext_resource type="Texture2D" uid="uid://eyeoamnl61fb" path="res://Game/TowerDefense/frame.png" id="4_38jwu"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4mhra"]
 sky_top_color = Color(5.29438e-07, 0.269521, 0.419965, 1)
@@ -15,71 +16,7 @@ ground_horizon_color = Color(0.55, 0.79189, 0.646168, 1)
 sky_material = SubResource("ProceduralSkyMaterial_4mhra")
 
 [sub_resource type="Environment" id="Environment_ps0ua"]
-background_mode = 2
 sky = SubResource("Sky_1o13x")
-
-[sub_resource type="Animation" id="Animation_oulwe"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Camera2D:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Camera3D:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0.5, 20)]
-}
-
-[sub_resource type="Animation" id="Animation_u5ytb"]
-resource_name = "Slide"
-length = 8.0
-loop_mode = 1
-step = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Camera2D:position")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 4),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(0, -100), Vector2(0, 300)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Camera3D:position")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 4),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(0, -4, 20), Vector3(0, 0.5, 20)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_g1l0e"]
-_data = {
-"RESET": SubResource("Animation_oulwe"),
-"Slide": SubResource("Animation_u5ytb")
-}
 
 [node name="TowerDefense" type="Node"]
 script = ExtResource("1_dm75f")
@@ -103,43 +40,22 @@ texture = ExtResource("2_dimbm")
 [node name="Camera2D" type="Camera2D" parent="."]
 visible = false
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_g1l0e")
-}
-autoplay = "Slide"
-
-[node name="Sprite3D" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.12218, -2.5, 0)
+[node name="PlayerTower" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.19516, -2.5, -1)
 texture_filter = 0
 texture = ExtResource("2_peddx")
 
-[node name="Sprite3D5" type="Sprite3D" parent="Sprite3D"]
+[node name="Cannon" type="Sprite3D" parent="PlayerTower"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0.01)
 texture = ExtResource("2_dimbm")
 
-[node name="Sprite3D2" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.143, -2.1, -3.897)
+[node name="Frame" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
 texture_filter = 0
-texture = ExtResource("2_peddx")
-
-[node name="Sprite3D3" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.79836, -2, -8.53094)
-texture_filter = 0
-texture = ExtResource("2_peddx")
-
-[node name="Sprite3D4" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.576, -1.8, -13.055)
-texture_filter = 0
-texture = ExtResource("2_peddx")
-
-[node name="Enemy" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.79836, 0, -17.8709)
-texture = ExtResource("2_dimbm")
+texture = ExtResource("4_38jwu")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 20)
 keep_aspect = 0
-fov = 30.0
-near = 0.5
+fov = 134.7
+near = 0.1
 far = 100.0
