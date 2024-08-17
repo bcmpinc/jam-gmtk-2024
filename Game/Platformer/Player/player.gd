@@ -1,19 +1,16 @@
 class_name Player extends CharacterBody2D
 
-enum State {FALL, CLIMB, LATCH, GRAPPLE, ASCEND}
+enum State {FALL, LATCH, GRAPPLE, ASCEND}
 enum Abilities {GRAPPLE, DOUBLE_JUMP, DASH, JETPACK}
 
 @onready var grapple : PackedScene = preload("res://Game/Platformer/Player/HookGrapple.tscn")
-const printstates = ["Fall", "Climb", "Latch", "Grapple"]
 
 @export var tm : TileMapLayer
 
 var active_grapple : Node = null
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
-
 var state = State.FALL
-var dir := Vector2.ZERO
 
 const SPEED = 180.0
 const INERTIA = 48.0
@@ -35,6 +32,12 @@ var skip_tiles := []
 var next_ground_tile := []
 var detector_list := []
 
+var dir := Vector2.ZERO
+
+var holding_an_item := false:
+	get:
+		return len(item_holder.get_children()) > 0
+
 var unlocked_abilities : Array[int] = [Abilities.JETPACK, Abilities.GRAPPLE]
 
 @export var camera_center : Node2D
@@ -44,14 +47,9 @@ var unlocked_abilities : Array[int] = [Abilities.JETPACK, Abilities.GRAPPLE]
 @export var space_check : Area2D
 @export var floor_check : Area2D
 
-@export var item_holder : RigidBody2D
+@export var item_holder : Node2D
 
-func _process(_delta: float) -> void:
-	ladder_behind = false
-	for i in [-3, 0, 2]:
-		if tm.get_cell_atlas_coords(tm.local_to_map(position + Vector2(0, i))) == ladder_tile:
-			ladder_behind = true
-			break
+func _physics_process(delta: float) -> void:	
 	if abs(look_time) > 0.8:
 		if look_time > 0:
 			camera_center.position.y = lerp(camera_center.position.y, -128.0, 0.2)
@@ -59,18 +57,13 @@ func _process(_delta: float) -> void:
 			camera_center.position.y = lerp(camera_center.position.y, 128.0, 0.2)
 	else:
 		camera_center.position.y = lerp(camera_center.position.y, 0.0, 0.2)
-
-func _physics_process(delta: float) -> void:
-	dir = Vector2(1,1) if player_sprite.flip_h == false else Vector2(-1, 1)
+	dir = Vector2(1, 1) if player_sprite.flip_h == false else Vector2(-1, 1)
 	double_tap_last_seen -= delta
 	if is_on_floor() or state == State.LATCH:
 		jetpack_juice = 2.0
 		coyote_time = 0.0
 		detatch_from_grapple()
-	
-	if not ladder_behind and state == State.CLIMB:
-		state = State.FALL
-	
+
 	if not is_on_floor() and state == State.FALL:
 		coyote_time += delta
 		player_sprite.animation = "jump"
@@ -80,7 +73,7 @@ func _physics_process(delta: float) -> void:
 		look_time = 0.0
 		if state == State.LATCH and Input.is_action_pressed("down"):
 			state = State.FALL
-		elif is_on_floor() or state in [State.LATCH, State.CLIMB, State.GRAPPLE] or coyote_time < 0.1:
+		elif is_on_floor() or state in [State.LATCH, State.GRAPPLE] or coyote_time < 0.1:
 			detatch_from_grapple()
 			if coyote_time < 0.1 and not State.GRAPPLE:
 				velocity.y = JUMP_VELOCITY
@@ -95,17 +88,16 @@ func _physics_process(delta: float) -> void:
 	if is_on_floor() and velocity == Vector2.ZERO:
 		player_sprite.animation = "idle"
 	
-	
 	var direction := Input.get_axis("left", "right")
 	if direction:
+		item_holder.position.x = -7 if direction > 0 else 7
 		look_time = 0.0
 		if not state == State.LATCH:
 			player_sprite.flip_h = direction < 0
-		if not state in [State.LATCH, State.CLIMB]:
 			velocity.x = lerp(velocity.x, direction * SPEED, 0.045)
-			ledge_grab.scale.x = dir.x
-			space_check.scale.x = dir.x
-			floor_check.scale.x = dir.x
+			ledge_grab.scale.x = direction
+			space_check.scale.x = direction
+			floor_check.scale.x = direction
 			player_sprite.animation = "run"
 			if len(skip_tiles) == 0 and len(next_ground_tile) > 0 and is_on_floor() and abs(velocity.x) > 50:
 				velocity.y -= 40
@@ -117,7 +109,6 @@ func _physics_process(delta: float) -> void:
 		if Input.is_action_just_released(i):
 			last_pressed_dir = [-1, 1][["left", "right"].find(i)]
 	if last_pressed_dir:
-		print(last_pressed_dir)
 		if double_tap_last_seen >= 0.0 and last_tapped_direction == last_pressed_dir:
 			for i in range(6, 0, -1):
 				var cur_spot = tm.get_cell_atlas_coords(tm.local_to_map(position) + Vector2i(i*last_pressed_dir, 0))
@@ -131,19 +122,7 @@ func _physics_process(delta: float) -> void:
 			last_tapped_direction = last_pressed_dir
 
 	if Input.is_action_pressed("up"):
-		if ladder_behind and abs(position.x - tm.map_to_local(tm.local_to_map(position)).x) < 3:
-			if tm.get_cell_atlas_coords(tm.local_to_map(position - Vector2(0, 3))) == ladder_tile or \
-			   tm.get_cell_atlas_coords(tm.local_to_map(position + Vector2(0, 4))) == ladder_top:
-				detatch_from_grapple()
-				state = State.CLIMB
-				position.x = tm.map_to_local(tm.local_to_map(position)).x
-				position.y -= 60.0 * delta
-				velocity.y = 0
-				player_sprite.animation = "climb"
-			
-			if is_on_floor():
-				position.y -= 1.0
-		elif jetpack_juice > 0 and not is_on_floor() and len(get_tree().get_nodes_in_group("grapples")) == 0 and Abilities.JETPACK in unlocked_abilities:
+		if jetpack_juice > 0 and not is_on_floor() and len(get_tree().get_nodes_in_group("grapples")) == 0 and Abilities.JETPACK in unlocked_abilities:
 			position.y -= 60.0 * delta
 			velocity.y *= 0.1
 			jetpack_juice -= delta
@@ -151,21 +130,17 @@ func _physics_process(delta: float) -> void:
 		else:
 			look_time += delta
 	
+	if Input.is_action_pressed("drop") and holding_an_item:
+		item_holder.get_child(0).drop()
+	
 	if Input.is_action_pressed("down"):
 		look_time -= delta
 		var just_on_plank = false
-		if tm.get_cell_atlas_coords(tm.local_to_map(position) + Vector2i(0, 1)) == ladder_top and is_on_floor():
-			just_on_plank = true
-			position.y += 1
-			state = State.CLIMB
-			ladder_behind = true
-		elif state == State.CLIMB and ladder_behind and ((not is_on_floor()) or just_on_plank):
-			position.x = tm.map_to_local(tm.local_to_map(position)).x
-			position.y += 60.0 * delta
-			velocity.y = 0.0
-			player_sprite.animation = "climb"
+		if Input.is_action_pressed("accept") and holding_an_item:
+			item_holder.get_child(0).drop()
 		elif state not in [State.LATCH, State.GRAPPLE]:
 			state = State.FALL
+			
 	
 	if Input.is_action_just_released("down") and state == State.LATCH:
 		player_sprite.animation = "latch"
@@ -193,7 +168,7 @@ func shoot_grapple():
 
 
 func try_latch():
-	if ledge_grab.has_overlapping_bodies() and not is_on_floor() and state != State.CLIMB and not space_check.has_overlapping_bodies():
+	if ledge_grab.has_overlapping_bodies() and not is_on_floor() and not space_check.has_overlapping_bodies():
 		detatch_from_grapple()
 		state = State.LATCH
 		velocity = Vector2.ZERO

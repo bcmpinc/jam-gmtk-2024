@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dpb8oud11mweg"]
+[gd_scene load_steps=11 format=3 uid="uid://dpb8oud11mweg"]
 
 [ext_resource type="Script" path="res://Game/Platformer/Player/player.gd" id="1_r3qvy"]
 [ext_resource type="Texture2D" uid="uid://b6d2kmarteet" path="res://Game/Platformer/Player/GMTK_Minion_Frame.png" id="2_8bai0"]
@@ -68,9 +68,6 @@ radius = 4.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_gw63c"]
 radius = 4.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_saqyf"]
-radius = 4.0
-
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("camera_center", "player_sprite", "ledge_grab", "space_check", "floor_check", "item_holder") groups=["player"]]
 texture_filter = 1
 script = ExtResource("1_r3qvy")
@@ -85,7 +82,7 @@ item_holder = NodePath("ItemHolder")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_6m4a6")
-animation = &"run"
+animation = &"latch"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["player"]]
 position = Vector2(0, 4)
@@ -127,13 +124,8 @@ shape = SubResource("CircleShape2D_oq5pq")
 position = Vector2(12, 12)
 shape = SubResource("CircleShape2D_gw63c")
 
-[node name="ItemHolder" type="RigidBody2D" parent="."]
-position = Vector2(-8, 10)
-collision_layer = 2
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ItemHolder"]
-shape = SubResource("CircleShape2D_saqyf")
+[node name="ItemHolder" type="Node2D" parent="."]
+position = Vector2(-7, 9)
 
 [connection signal="body_entered" from="AreaDetectors/LedgeGrabArea" to="." method="_on_ledge_grab_area_body_entered"]
 [connection signal="body_exited" from="AreaDetectors/LedgeGrabArea" to="." method="_on_ledge_grab_area_body_exited"]

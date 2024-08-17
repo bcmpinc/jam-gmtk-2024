@@ -58,5 +58,8 @@ func change_state(new_state: State):
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	if state == State.SHOOT and not body.is_in_group("player"):
+	if state == State.SHOOT and body is TileMapLayer:
 		change_state(State.LATCH)
+		global_position = body.map_to_local(body.local_to_map(global_position))
+		body.local_to_map(global_position)
+		

@@ -1,0 +1,43 @@
+[gd_scene load_steps=4 format=3 uid="uid://ma8yo1t8mowe"]
+
+[ext_resource type="Script" path="res://Game/Platformer/UpgradeStation/upgrade_station.gd" id="1_acogj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aspa8"]
+size = Vector2(32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cwmed"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"Ballistic",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Explosive",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Player",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Thermal",
+"speed": 5.0
+}]
+
+[node name="UpgradeStation" type="Node2D"]
+script = ExtResource("1_acogj")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_aspa8")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_cwmed")
+animation = &"Thermal"
+
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
