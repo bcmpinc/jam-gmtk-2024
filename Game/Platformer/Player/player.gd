@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
-enum State {FALL, CLIMB, LATCH, GRAPPLE}
+enum State {FALL, CLIMB, LATCH, GRAPPLE, ASCEND}
+enum Abilities {GRAPPLE, DOUBLE_JUMP, DASH}
 
 @onready var grapple : PackedScene = preload("res://Game/Platformer/Player/HookGrapple.tscn")
 const printstates = ["Fall", "Climb", "Latch", "Grapple"]
@@ -21,8 +22,6 @@ var coyote_time := 0.0
 var look_time := 0.0
 
 var ladder_behind := false
-var taking_damage := false
-var on_tm := false
 
 var ladder_tile = Vector2i(1, 1)
 var ladder_top = Vector2i(1, 0)
@@ -31,7 +30,7 @@ var skip_tiles := []
 var next_ground_tile := []
 var detector_list := []
 
-signal hit
+var unlocked_abilities : Array[int] = []
 
 @export var camera_center : Node2D
 @export var player_sprite : AnimatedSprite2D
@@ -41,7 +40,7 @@ signal hit
 @export var floor_check : Area2D
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	ladder_behind = false
 	for i in [-3, 0, 2]:
 		if tm.get_cell_atlas_coords(tm.local_to_map(position + Vector2(0, i))) == ladder_tile:
@@ -64,7 +63,6 @@ func _physics_process(delta: float) -> void:
 	if not ladder_behind and state == State.CLIMB:
 		state = State.FALL
 	
-	
 	if not is_on_floor() and state == State.FALL:
 		coyote_time += delta
 		player_sprite.animation = "jump"
@@ -80,17 +78,14 @@ func _physics_process(delta: float) -> void:
 				velocity.y = JUMP_VELOCITY
 			else:
 				velocity.y += JUMP_VELOCITY
-		elif len(get_tree().get_nodes_in_group("grapples")) == 0:
+		elif len(get_tree().get_nodes_in_group("grapples")) == 0 and Abilities.GRAPPLE in unlocked_abilities:
 			shoot_grapple()
-		
-	
 	
 	if Input.is_action_just_released("accept"):
 		detatch_from_grapple()
 	
 	if is_on_floor() and velocity == Vector2.ZERO:
 		player_sprite.animation = "idle"
-	
 	
 	var direction := Input.get_axis("left", "right")
 	if direction:
@@ -175,16 +170,8 @@ func try_latch():
 		player_sprite.animation = "latch"
 
 
-func _on_ledge_grab_area_body_shape_entered(body_rid: RID, body: Node2D, body_shape_index: int, local_shape_index: int) -> void:
-	if body == tm:
-		try_latch()
 
-func _on_ledge_grab_area_body_shape_exited(body_rid: RID, body: Node2D, body_shape_index: int, local_shape_index: int) -> void:
-	if state == State.LATCH:
-		state = State.FALL
-
-
-func _on_ledge_clip_detector_body_exited(body: Node2D) -> void:
+func _on_ledge_clip_detector_body_exited(_body: Node2D) -> void:
 	try_latch()
 
 
@@ -193,16 +180,25 @@ func _on_interact_area_body_entered(body: Node2D) -> void:
 		print(body)
 
 
-func _on_floor_detector_body_shape_entered(body_rid: RID, body: Node2D, body_shape_index: int, local_shape_index: int) -> void:
+func _on_floor_detector_body_shape_entered(_body_rid: RID, body: Node2D, _body_shape_index: int, local_shape_index: int) -> void:
 	if local_shape_index == 0:
 		next_ground_tile.append(body)
 	if local_shape_index > 0:
 		skip_tiles.append(body)
 
 
-
-func _on_floor_detector_body_shape_exited(body_rid: RID, body: Node2D, body_shape_index: int, local_shape_index: int) -> void:
+func _on_floor_detector_body_shape_exited(_body_rid: RID, body: Node2D, _body_shape_index: int, local_shape_index: int) -> void:
 	if local_shape_index == 0 and body in next_ground_tile:
 		next_ground_tile.erase(body)
 	if local_shape_index > 0 and body in skip_tiles:
 		skip_tiles.erase(body)
+
+
+func _on_ledge_grab_area_body_entered(body: Node2D) -> void:
+	if body == tm:
+		try_latch()
+
+
+func _on_ledge_grab_area_body_exited(_body: Node2D) -> void:
+	if state == State.LATCH:
+		state = State.FALL

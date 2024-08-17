@@ -78,7 +78,7 @@ shape = SubResource("CircleShape2D_fey0o")
 [node name="LedgeClipDetector" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LedgeClipDetector"]
-position = Vector2(10, -18)
+position = Vector2(11, -18)
 shape = SubResource("CircleShape2D_kc1kn")
 
 [node name="InteractArea" type="Area2D" parent="."]
@@ -103,8 +103,8 @@ shape = SubResource("CircleShape2D_oq5pq")
 position = Vector2(12, 12)
 shape = SubResource("CircleShape2D_gw63c")
 
-[connection signal="body_shape_entered" from="LedgeGrabArea" to="." method="_on_ledge_grab_area_body_shape_entered"]
-[connection signal="body_shape_exited" from="LedgeGrabArea" to="." method="_on_ledge_grab_area_body_shape_exited"]
+[connection signal="body_entered" from="LedgeGrabArea" to="." method="_on_ledge_grab_area_body_entered"]
+[connection signal="body_exited" from="LedgeGrabArea" to="." method="_on_ledge_grab_area_body_exited"]
 [connection signal="body_exited" from="LedgeClipDetector" to="." method="_on_ledge_clip_detector_body_exited"]
 [connection signal="body_entered" from="InteractArea" to="." method="_on_interact_area_body_entered"]
 [connection signal="body_shape_entered" from="FloorDetector" to="." method="_on_floor_detector_body_shape_entered"]

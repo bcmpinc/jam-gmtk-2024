@@ -38,7 +38,6 @@ func _physics_process(delta):
 			if dist_to_player < 16.0: 
 				queue_free()
 	if dist_to_player > 500:
-		#printt(global_position.move_toward(target.global_position, delta*400))
 		change_state(State.RETRACT)
 
 func change_state(new_state: State):
