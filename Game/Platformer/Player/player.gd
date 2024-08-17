@@ -1,12 +1,13 @@
-extends CharacterBody2D
+class_name Player extends CharacterBody2D
 
 enum State {FALL, CLIMB, LATCH, GRAPPLE, ASCEND}
-enum Abilities {GRAPPLE, DOUBLE_JUMP, DASH}
+enum Abilities {GRAPPLE, DOUBLE_JUMP, DASH, JETPACK}
 
 @onready var grapple : PackedScene = preload("res://Game/Platformer/Player/HookGrapple.tscn")
 const printstates = ["Fall", "Climb", "Latch", "Grapple"]
 
 @export var tm : TileMapLayer
+
 var active_grapple : Node = null
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -20,6 +21,10 @@ const JUMP_VELOCITY = -280.0
 
 var coyote_time := 0.0
 var look_time := 0.0
+var jetpack_juice := 2.0
+var dash_cooldown := 0.25
+var double_tap_last_seen := 0.0
+var last_tapped_direction := 0.0
 
 var ladder_behind := false
 
@@ -30,7 +35,7 @@ var skip_tiles := []
 var next_ground_tile := []
 var detector_list := []
 
-var unlocked_abilities : Array[int] = []
+var unlocked_abilities : Array[int] = [Abilities.JETPACK, Abilities.GRAPPLE]
 
 @export var camera_center : Node2D
 @export var player_sprite : AnimatedSprite2D
@@ -39,6 +44,7 @@ var unlocked_abilities : Array[int] = []
 @export var space_check : Area2D
 @export var floor_check : Area2D
 
+@export var item_holder : RigidBody2D
 
 func _process(_delta: float) -> void:
 	ladder_behind = false
@@ -56,7 +62,9 @@ func _process(_delta: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	dir = Vector2(1,1) if player_sprite.flip_h == false else Vector2(-1, 1)
+	double_tap_last_seen -= delta
 	if is_on_floor() or state == State.LATCH:
+		jetpack_juice = 2.0
 		coyote_time = 0.0
 		detatch_from_grapple()
 	
@@ -87,8 +95,10 @@ func _physics_process(delta: float) -> void:
 	if is_on_floor() and velocity == Vector2.ZERO:
 		player_sprite.animation = "idle"
 	
+	
 	var direction := Input.get_axis("left", "right")
 	if direction:
+	
 		look_time = 0.0
 		if not state == State.LATCH:
 			player_sprite.flip_h = direction < 0
@@ -101,7 +111,20 @@ func _physics_process(delta: float) -> void:
 			if len(skip_tiles) == 0 and len(next_ground_tile) > 0 and is_on_floor() and abs(velocity.x) > 50:
 				velocity.y -= 40
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
+		velocity.x = lerp(velocity.x, 0.0, delta * 10)
+	
+	if Input.is_action_just_released("left") or Input.is_action_just_released("right"):
+		if double_tap_last_seen >= 0.0 and last_tapped_direction == direction:
+			for i in range(8, 0, -1):
+				var cur_spot = tm.get_cell_atlas_coords(tm.local_to_map(position) + Vector2i(i, 0))
+				if cur_spot == Vector2i(-1, -1):
+					position = tm.map_to_local(tm.local_to_map(position) + Vector2i(i, 0))
+					double_tap_last_seen = 0.0
+					last_tapped_direction = 0.0
+					break
+		else:
+			double_tap_last_seen = dash_cooldown
+			last_tapped_direction = direction
 
 	if Input.is_action_pressed("up"):
 		if ladder_behind and abs(position.x - tm.map_to_local(tm.local_to_map(position)).x) < 3:
@@ -116,6 +139,11 @@ func _physics_process(delta: float) -> void:
 			
 			if is_on_floor():
 				position.y -= 1.0
+		elif jetpack_juice > 0 and not is_on_floor() and len(get_tree().get_nodes_in_group("grapples")) == 0 and Abilities.JETPACK in unlocked_abilities:
+			position.y -= 60.0 * delta
+			velocity.y *= 0.1
+			jetpack_juice -= delta
+			
 		else:
 			look_time += delta
 	
@@ -161,7 +189,7 @@ func shoot_grapple():
 
 
 func try_latch():
-	if $LedgeGrabArea.has_overlapping_bodies() and not is_on_floor() and state != State.CLIMB and not $LedgeClipDetector.has_overlapping_bodies():
+	if ledge_grab.has_overlapping_bodies() and not is_on_floor() and state != State.CLIMB and not space_check.has_overlapping_bodies():
 		detatch_from_grapple()
 		state = State.LATCH
 		velocity = Vector2.ZERO
@@ -202,3 +230,8 @@ func _on_ledge_grab_area_body_entered(body: Node2D) -> void:
 func _on_ledge_grab_area_body_exited(_body: Node2D) -> void:
 	if state == State.LATCH:
 		state = State.FALL
+
+
+func _on_interact_area_area_entered(area: Area2D) -> void:
+	if not area == tm:
+		print(area)

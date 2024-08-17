@@ -1,30 +1,46 @@
-[gd_scene load_steps=10 format=3 uid="uid://dpb8oud11mweg"]
+[gd_scene load_steps=12 format=3 uid="uid://dpb8oud11mweg"]
 
 [ext_resource type="Script" path="res://Game/Platformer/Player/player.gd" id="1_r3qvy"]
+[ext_resource type="Texture2D" uid="uid://b6d2kmarteet" path="res://Game/Platformer/Player/GMTK_Minion_Frame.png" id="2_8bai0"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_6m4a6"]
 animations = [{
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_8bai0")
+}],
 "loop": true,
 "name": &"climb",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_8bai0")
+}],
 "loop": true,
 "name": &"idle",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_8bai0")
+}],
 "loop": true,
 "name": &"jump",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_8bai0")
+}],
 "loop": true,
 "name": &"latch",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_8bai0")
+}],
 "loop": true,
 "name": &"run",
 "speed": 5.0
@@ -52,60 +68,77 @@ radius = 4.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_gw63c"]
 radius = 4.0
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("camera_center", "player_sprite", "ledge_grab", "space_check", "floor_check") groups=["player"]]
+[sub_resource type="CircleShape2D" id="CircleShape2D_saqyf"]
+radius = 4.0
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("camera_center", "player_sprite", "ledge_grab", "space_check", "floor_check", "item_holder") groups=["player"]]
+texture_filter = 1
 script = ExtResource("1_r3qvy")
 camera_center = NodePath("CameraCenter")
 player_sprite = NodePath("AnimatedSprite2D")
-ledge_grab = NodePath("LedgeGrabArea")
-space_check = NodePath("LedgeClipDetector")
-floor_check = NodePath("FloorDetector")
+ledge_grab = NodePath("AreaDetectors/LedgeGrabArea")
+space_check = NodePath("AreaDetectors/LedgeClipDetector")
+floor_check = NodePath("AreaDetectors/FloorDetector")
+item_holder = NodePath("ItemHolder")
 
 [node name="CameraCenter" type="Node2D" parent="."]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_6m4a6")
-animation = &"jump"
+animation = &"run"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["player"]]
+position = Vector2(0, 4)
 shape = SubResource("CapsuleShape2D_68r1n")
 
-[node name="LedgeGrabArea" type="Area2D" parent="."]
+[node name="AreaDetectors" type="Node2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LedgeGrabArea"]
-position = Vector2(10, -10)
+[node name="LedgeGrabArea" type="Area2D" parent="AreaDetectors"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaDetectors/LedgeGrabArea"]
+position = Vector2(10, -7)
 shape = SubResource("CircleShape2D_fey0o")
 
-[node name="LedgeClipDetector" type="Area2D" parent="."]
+[node name="LedgeClipDetector" type="Area2D" parent="AreaDetectors"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LedgeClipDetector"]
-position = Vector2(11, -18)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaDetectors/LedgeClipDetector"]
+position = Vector2(11, -15)
 shape = SubResource("CircleShape2D_kc1kn")
 
-[node name="InteractArea" type="Area2D" parent="."]
+[node name="InteractArea" type="Area2D" parent="AreaDetectors"]
 collision_layer = 0
 collision_mask = 15
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaDetectors/InteractArea"]
 position = Vector2(0, 4)
 shape = SubResource("CircleShape2D_k4rb7")
 
-[node name="FloorDetector" type="Area2D" parent="."]
+[node name="FloorDetector" type="Area2D" parent="AreaDetectors"]
 
-[node name="FloorCheck" type="CollisionShape2D" parent="FloorDetector"]
+[node name="FloorCheck" type="CollisionShape2D" parent="AreaDetectors/FloorDetector"]
 position = Vector2(20, 12)
 shape = SubResource("CircleShape2D_l0p0t")
 
-[node name="SpaceCheck1" type="CollisionShape2D" parent="FloorDetector"]
+[node name="SpaceCheck1" type="CollisionShape2D" parent="AreaDetectors/FloorDetector"]
 position = Vector2(20, 0)
 shape = SubResource("CircleShape2D_oq5pq")
 
-[node name="SpaceCheck2" type="CollisionShape2D" parent="FloorDetector"]
+[node name="SpaceCheck2" type="CollisionShape2D" parent="AreaDetectors/FloorDetector"]
 position = Vector2(12, 12)
 shape = SubResource("CircleShape2D_gw63c")
 
-[connection signal="body_entered" from="LedgeGrabArea" to="." method="_on_ledge_grab_area_body_entered"]
-[connection signal="body_exited" from="LedgeGrabArea" to="." method="_on_ledge_grab_area_body_exited"]
-[connection signal="body_exited" from="LedgeClipDetector" to="." method="_on_ledge_clip_detector_body_exited"]
-[connection signal="body_entered" from="InteractArea" to="." method="_on_interact_area_body_entered"]
-[connection signal="body_shape_entered" from="FloorDetector" to="." method="_on_floor_detector_body_shape_entered"]
-[connection signal="body_shape_exited" from="FloorDetector" to="." method="_on_floor_detector_body_shape_exited"]
+[node name="ItemHolder" type="RigidBody2D" parent="."]
+position = Vector2(-8, 10)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ItemHolder"]
+shape = SubResource("CircleShape2D_saqyf")
+
+[connection signal="body_entered" from="AreaDetectors/LedgeGrabArea" to="." method="_on_ledge_grab_area_body_entered"]
+[connection signal="body_exited" from="AreaDetectors/LedgeGrabArea" to="." method="_on_ledge_grab_area_body_exited"]
+[connection signal="body_exited" from="AreaDetectors/LedgeClipDetector" to="." method="_on_ledge_clip_detector_body_exited"]
+[connection signal="area_entered" from="AreaDetectors/InteractArea" to="." method="_on_interact_area_area_entered"]
+[connection signal="body_entered" from="AreaDetectors/InteractArea" to="." method="_on_interact_area_body_entered"]
+[connection signal="body_shape_entered" from="AreaDetectors/FloorDetector" to="." method="_on_floor_detector_body_shape_entered"]
+[connection signal="body_shape_exited" from="AreaDetectors/FloorDetector" to="." method="_on_floor_detector_body_shape_exited"]

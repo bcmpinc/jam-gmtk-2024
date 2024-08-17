@@ -34,7 +34,7 @@ func _physics_process(delta):
 		State.RETRACT:
 			freeze = true
 			player_holder.global_position = target.global_position
-			global_position = global_position.move_toward(player_holder.global_position, delta*400)
+			global_position = global_position.move_toward(player_holder.global_position, delta*800)
 			if dist_to_player < 16.0: 
 				queue_free()
 	if dist_to_player > 500:
@@ -59,5 +59,4 @@ func change_state(new_state: State):
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if state == State.SHOOT and not body.is_in_group("player"):
-		printt("-->", body)
 		change_state(State.LATCH)
