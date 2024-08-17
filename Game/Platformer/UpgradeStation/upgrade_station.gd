@@ -27,11 +27,11 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	if Input.is_action_pressed("accept"):
+	if not bought and Input.is_action_pressed("accept"):
 		var overlapping = area.get_overlapping_bodies()
 		for item in overlapping:
 			if item is Player:
-				if Global.inventory_goo >= cur_cost_goo and Global.inventory_electricity >= cur_cost_elec and not bought:
+				if Global.inventory_goo >= cur_cost_goo and Global.inventory_electricity >= cur_cost_elec:
 					label_goo.update(0)
 					label_elec.update(0)
 					Global.inventory_electricity -= cur_cost_elec

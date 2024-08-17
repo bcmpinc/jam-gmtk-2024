@@ -1,0 +1,70 @@
+[gd_scene load_steps=11 format=3 uid="uid://bjekmgn06ch0x"]
+
+[ext_resource type="Script" path="res://Game/Platformer/Bank/bank.gd" id="1_dqgmc"]
+[ext_resource type="Texture2D" uid="uid://bqig4wk6xkg4n" path="res://Game/Platformer/Upgrades/upgrades.png" id="2_w30k7"]
+[ext_resource type="PackedScene" uid="uid://bfoqdma576a48" path="res://Global/UI/TweenableLabel/TweenableLabel.tscn" id="3_xpbvh"]
+[ext_resource type="Theme" uid="uid://bwekckjgabm36" path="res://Global/UI/theme.tres" id="4_qwxux"]
+[ext_resource type="FontFile" uid="uid://cjebqaobshgr4" path="res://Global/UI/NotJamSciMono10.ttf" id="5_gacm0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b5t8b"]
+size = Vector2(32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_va4xe"]
+atlas = ExtResource("2_w30k7")
+region = Rect2(112, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hcjm7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_va4xe")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_fowug"]
+resource_name = "pay_out"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mue5s"]
+_data = {
+"pay_out": SubResource("Animation_fowug")
+}
+
+[node name="Bank" type="Node2D" node_paths=PackedStringArray("sprite", "area", "anim") groups=["bank"]]
+texture_filter = 1
+script = ExtResource("1_dqgmc")
+sprite = NodePath("AnimatedSprite2D")
+area = NodePath("Area2D")
+anim = NodePath("AnimationPlayer")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_b5t8b")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_hcjm7")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_mue5s")
+}
+
+[node name="TweenableLabel" parent="." instance=ExtResource("3_xpbvh")]
+offset_left = -16.0
+offset_top = -26.0
+offset_right = 16.0
+offset_bottom = -17.0
+theme = ExtResource("4_qwxux")
+theme_override_fonts/normal_font = ExtResource("5_gacm0")
+theme_override_font_sizes/normal_font_size = 10
+bbcode_enabled = true
+text = "100"
+scroll_active = false
+prefix = "[center]"
+suffix = "[/center]"
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

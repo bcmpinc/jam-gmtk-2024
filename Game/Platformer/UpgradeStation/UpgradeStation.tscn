@@ -147,6 +147,7 @@ offset_top = -4.0
 offset_right = -15.0
 offset_bottom = 4.0
 theme = ExtResource("3_op12a")
+theme_override_colors/default_color = Color(0.827451, 0.898039, 0.286275, 1)
 theme_override_fonts/normal_font = ExtResource("4_mb33m")
 theme_override_font_sizes/normal_font_size = 10
 bbcode_enabled = true
@@ -163,13 +164,14 @@ offset_top = -4.0
 offset_right = 44.0
 offset_bottom = 4.0
 theme = ExtResource("3_op12a")
+theme_override_colors/default_color = Color(0.984314, 0.772549, 0.192157, 1)
 theme_override_fonts/normal_font = ExtResource("4_mb33m")
 theme_override_font_sizes/normal_font_size = 10
 text = "1234"
 scroll_active = false
 anim_length = 0.3
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." groups=["upgrade_station"]]
 libraries = {
 "": SubResource("AnimationLibrary_56rpf")
 }
