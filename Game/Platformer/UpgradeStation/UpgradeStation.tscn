@@ -1,35 +1,133 @@
-[gd_scene load_steps=4 format=3 uid="uid://ma8yo1t8mowe"]
+[gd_scene load_steps=15 format=3 uid="uid://ma8yo1t8mowe"]
 
 [ext_resource type="Script" path="res://Game/Platformer/UpgradeStation/upgrade_station.gd" id="1_acogj"]
+[ext_resource type="PackedScene" uid="uid://bfoqdma576a48" path="res://Global/UI/TweenableLabel/TweenableLabel.tscn" id="2_62eqk"]
+[ext_resource type="Texture2D" uid="uid://bqig4wk6xkg4n" path="res://Game/Platformer/Upgrades/upgrades.png" id="2_tvd84"]
+[ext_resource type="Theme" uid="uid://bwekckjgabm36" path="res://Global/UI/theme.tres" id="3_op12a"]
+[ext_resource type="FontFile" uid="uid://cjebqaobshgr4" path="res://Global/UI/NotJamSciMono10.ttf" id="4_mb33m"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_aspa8"]
 size = Vector2(32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_pka26"]
+atlas = ExtResource("2_tvd84")
+region = Rect2(112, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qbm0n"]
+atlas = ExtResource("2_tvd84")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dskv6"]
+atlas = ExtResource("2_tvd84")
+region = Rect2(96, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vlulg"]
+atlas = ExtResource("2_tvd84")
+region = Rect2(0, 0, 16, 16)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_cwmed"]
 animations = [{
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pka26")
+}],
 "loop": true,
 "name": &"Ballistic",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qbm0n")
+}],
 "loop": true,
 "name": &"Explosive",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dskv6")
+}],
 "loop": true,
 "name": &"Player",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vlulg")
+}],
 "loop": true,
 "name": &"Thermal",
 "speed": 5.0
 }]
 
-[node name="UpgradeStation" type="Node2D"]
+[sub_resource type="Animation" id="Animation_0t5ey"]
+resource_name = "buy"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.133333, 0.433333, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.8, 1.2), Vector2(1.2, 0.8), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.366667, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -10), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_luhmf"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_56rpf"]
+_data = {
+"RESET": SubResource("Animation_luhmf"),
+"buy": SubResource("Animation_0t5ey")
+}
+
+[node name="UpgradeStation" type="Node2D" node_paths=PackedStringArray("sprite", "label_goo", "label_elec", "area", "anim")]
 script = ExtResource("1_acogj")
+sprite = NodePath("AnimatedSprite2D")
+label_goo = NodePath("GooCost")
+label_elec = NodePath("ElecCost")
+area = NodePath("Area2D")
+anim = NodePath("AnimationPlayer")
 
 [node name="Area2D" type="Area2D" parent="."]
 
@@ -37,7 +135,41 @@ script = ExtResource("1_acogj")
 shape = SubResource("RectangleShape2D_aspa8")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+texture_repeat = 2
 sprite_frames = SubResource("SpriteFrames_cwmed")
 animation = &"Thermal"
 
-[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[node name="GooCost" parent="." instance=ExtResource("2_62eqk")]
+texture_filter = 1
+offset_left = -43.0
+offset_top = -4.0
+offset_right = -15.0
+offset_bottom = 4.0
+theme = ExtResource("3_op12a")
+theme_override_fonts/normal_font = ExtResource("4_mb33m")
+theme_override_font_sizes/normal_font_size = 10
+bbcode_enabled = true
+text = "1234"
+scroll_active = false
+prefix = "[right]"
+suffix = "[/right]"
+anim_length = 0.3
+
+[node name="ElecCost" parent="." instance=ExtResource("2_62eqk")]
+texture_filter = 1
+offset_left = 16.0
+offset_top = -4.0
+offset_right = 44.0
+offset_bottom = 4.0
+theme = ExtResource("3_op12a")
+theme_override_fonts/normal_font = ExtResource("4_mb33m")
+theme_override_font_sizes/normal_font_size = 10
+text = "1234"
+scroll_active = false
+anim_length = 0.3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_56rpf")
+}

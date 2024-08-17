@@ -14,14 +14,16 @@ var music_tween : Tween
 @onready var ap : AnimationPlayer = $AnimationPlayer
 @onready var rect : ColorRect = $DissolveRect
 
-var inventory_goo : int = 0
-var inventory_electricity : int = 0
+var inventory_goo : int = 10
+var inventory_electricity : int = 10
 
 var upgrade_levels : Dictionary = {
 	"Player" : 0, 
 	"Ballistic" : 0, 
 	"Explosive" : 0, 
 	"Thermal" : 0}
+
+var tower_stack : Array = []
 
 # Do `await Global.fade` to wait for the animation to finish.
 var fade_animation: Signal:

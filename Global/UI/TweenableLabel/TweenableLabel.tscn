@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bfoqdma576a48"]
+
+[ext_resource type="Script" path="res://Global/UI/TweenableLabel/tweenable_label.gd" id="1_syn8k"]
+
+[node name="TweenableLabel" type="RichTextLabel"]
+script = ExtResource("1_syn8k")

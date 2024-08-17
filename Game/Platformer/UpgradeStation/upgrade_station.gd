@@ -10,12 +10,35 @@ var upgrade_costs : Dictionary = {
 	}
 
 @export var sprite : AnimatedSprite2D
+@export var label_goo : TweenLabel
+@export var label_elec : TweenLabel
+@export var area : Area2D
+@export var anim : AnimationPlayer
+
+var bought := false
+
+var cur_cost_goo = upgrade_costs[station_type][Global.upgrade_levels[station_type]]["Goo"]
+var cur_cost_elec = upgrade_costs[station_type][Global.upgrade_levels[station_type]]["Electricity"]
 
 func _ready() -> void:
 	sprite.animation = station_type
+	label_goo.displayed_value = cur_cost_goo * 100
+	label_elec.displayed_value = cur_cost_elec * 100
 
 
-
-func _on_area_2d_body_exited(body: Node2D) -> void:
-	if body is Player:
-		print('player is here')
+func _process(delta: float) -> void:
+	if Input.is_action_pressed("accept"):
+		var overlapping = area.get_overlapping_bodies()
+		for item in overlapping:
+			if item is Player:
+				if Global.inventory_goo >= cur_cost_goo and Global.inventory_electricity >= cur_cost_elec and not bought:
+					label_goo.update(0)
+					label_elec.update(0)
+					Global.inventory_electricity -= cur_cost_elec
+					Global.inventory_goo -= cur_cost_goo
+					Global.upgrade_levels[station_type] += 1
+					Global.tower_stack.append({station_type:Global.upgrade_levels[station_type]})
+					print("upgrade_levels:\n", Global.upgrade_levels)
+					print("\n\ntower_stack:\n", Global.tower_stack)
+					bought = true
+					anim.play("buy")
