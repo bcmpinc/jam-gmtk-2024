@@ -1,12 +1,40 @@
-[gd_scene load_steps=21 format=3 uid="uid://dpb8oud11mweg"]
+[gd_scene load_steps=28 format=3 uid="uid://dpb8oud11mweg"]
 
 [ext_resource type="Script" path="res://Game/Platformer/Player/player.gd" id="1_r3qvy"]
 [ext_resource type="Texture2D" uid="uid://b6d2kmarteet" path="res://Game/Platformer/Player/GMTK_Minion_Frame.png" id="2_8bai0"]
+[ext_resource type="Texture2D" uid="uid://ci3rc4m5oeeyn" path="res://Game/Platformer/Player/particles.png" id="2_s5bbe"]
 [ext_resource type="AudioStream" uid="uid://l4mt1xgahbeg" path="res://Global/Audio/Jump/8bit_jump1.wav" id="3_pq33f"]
 [ext_resource type="AudioStream" uid="uid://bjjm1yrahe4dy" path="res://Global/Audio/Landing/Landing1.wav" id="4_fxu1n"]
 [ext_resource type="AudioStream" uid="uid://qqppxk4hp83s" path="res://Global/Audio/Landing/landing2.wav" id="5_t5m1k"]
 [ext_resource type="AudioStream" uid="uid://4xokbayerr8b" path="res://Global/Audio/Landing/landing3.wav" id="6_0kxst"]
 [ext_resource type="AudioStream" uid="uid://dvvrsv0peqw8q" path="res://Global/Audio/Jetpack/jetpack_flyingloop.wav" id="7_ty4gy"]
+
+[sub_resource type="Gradient" id="Gradient_bbvfv"]
+colors = PackedColorArray(0.787759, 0.787759, 0.787759, 1, 0.154876, 0.154876, 0.154876, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_r1tcg"]
+gradient = SubResource("Gradient_bbvfv")
+
+[sub_resource type="Curve" id="Curve_8rb54"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.167981), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_600xn"]
+curve = SubResource("Curve_8rb54")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_us0dn"]
+particle_flag_disable_z = true
+inherit_velocity_ratio = 1.0
+direction = Vector3(-9.315, 10, 0)
+initial_velocity_max = 76.18
+gravity = Vector3(0, 98, 0)
+scale_min = 0.0
+scale_curve = SubResource("CurveTexture_600xn")
+color_ramp = SubResource("GradientTexture1D_r1tcg")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_arpcy"]
+atlas = ExtResource("2_s5bbe")
+region = Rect2(0, 0, 5, 5)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_6m4a6"]
 animations = [{
@@ -95,7 +123,7 @@ stream_0/stream = ExtResource("4_fxu1n")
 stream_1/stream = ExtResource("5_t5m1k")
 stream_2/stream = ExtResource("6_0kxst")
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("camera_center", "player_sprite", "ledge_grab", "space_check", "floor_check", "item_holder", "jetpack_sound") groups=["player"]]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("camera_center", "player_sprite", "ledge_grab", "space_check", "floor_check", "item_holder", "jetpack_sound", "jetpack_particles") groups=["player"]]
 texture_filter = 1
 script = ExtResource("1_r3qvy")
 camera_center = NodePath("CameraCenter")
@@ -105,6 +133,15 @@ space_check = NodePath("AreaDetectors/LedgeClipDetector")
 floor_check = NodePath("AreaDetectors/FloorDetector")
 item_holder = NodePath("ItemHolder")
 jetpack_sound = NodePath("Jetpack")
+jetpack_particles = NodePath("JetpackParticles")
+
+[node name="JetpackParticles" type="GPUParticles2D" parent="."]
+position = Vector2(-4, 11)
+amount = 32
+amount_ratio = 0.0
+process_material = SubResource("ParticleProcessMaterial_us0dn")
+texture = SubResource("AtlasTexture_arpcy")
+lifetime = 0.5
 
 [node name="CameraCenter" type="Node2D" parent="."]
 

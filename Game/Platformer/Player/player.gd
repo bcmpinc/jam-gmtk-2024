@@ -50,6 +50,12 @@ var unlocked_abilities : Array[int] = [Abilities.JETPACK, Abilities.GRAPPLE]
 @export var item_holder : Node2D
 
 @export var jetpack_sound : AudioStreamPlayer
+@export var jetpack_particles : GPUParticles2D
+
+
+func _ready() -> void:
+	jetpack_particles.amount_ratio = 0.0
+
 
 func _physics_process(delta: float) -> void:
 	var was_in_air := not is_on_floor()
@@ -96,6 +102,8 @@ func _physics_process(delta: float) -> void:
 	var direction := Input.get_axis("left", "right")
 	if direction:
 		item_holder.position.x = -7 if direction > 0 else 7
+		jetpack_particles.position.x = -5 if direction > 0 else 5
+		jetpack_particles.scale.x = direction
 		look_time = 0.0
 		if not state == State.LATCH:
 			player_sprite.flip_h = direction < 0
@@ -132,11 +140,11 @@ func _physics_process(delta: float) -> void:
 			velocity.y *= 0.1
 			jetpack_juice -= delta
 			if not jetpack_sound.playing:
+				jetpack_particles.amount_ratio = 1.0
 				jetpack_sound.play()
 		else:
 			look_time += delta
-	
-	
+
 	
 	if Input.is_action_pressed("drop") and holding_an_item:
 		item_holder.get_child(0).drop()
@@ -155,6 +163,7 @@ func _physics_process(delta: float) -> void:
 	
 	if Input.is_action_just_released("up") or Input.is_action_just_released("down"):
 		if jetpack_sound.playing:
+			jetpack_particles.amount_ratio = 0.0
 			jetpack_sound.stop()
 		look_time = 0.0
 	
