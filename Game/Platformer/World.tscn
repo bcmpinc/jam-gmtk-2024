@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=4 uid="uid://hfqv8o3v3rkf"]
+[gd_scene load_steps=10 format=4 uid="uid://hfqv8o3v3rkf"]
 
 [ext_resource type="Script" path="res://Game/Platformer/world.gd" id="1_guayr"]
+[ext_resource type="AudioStream" uid="uid://b8qq1xvp6nhl3" path="res://Global/Audio/Music/Prep Phase v1.1.wav" id="2_3jiej"]
 [ext_resource type="PackedScene" uid="uid://bfoqdma576a48" path="res://Global/UI/TweenableLabel/TweenableLabel.tscn" id="2_dr4hy"]
 [ext_resource type="TileSet" uid="uid://cu1wmbhm4bn38" path="res://Game/Platformer/PlaceholderTileset.tres" id="2_en04c"]
 [ext_resource type="Theme" uid="uid://bwekckjgabm36" path="res://Global/UI/theme.tres" id="3_7a8lh"]
@@ -13,6 +14,7 @@
 script = ExtResource("1_guayr")
 cam = NodePath("Camera2D")
 player = NodePath("Player")
+bg_muisc = ExtResource("2_3jiej")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

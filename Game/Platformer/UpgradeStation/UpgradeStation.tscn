@@ -1,10 +1,13 @@
-[gd_scene load_steps=15 format=3 uid="uid://ma8yo1t8mowe"]
+[gd_scene load_steps=19 format=3 uid="uid://ma8yo1t8mowe"]
 
 [ext_resource type="Script" path="res://Game/Platformer/UpgradeStation/upgrade_station.gd" id="1_acogj"]
 [ext_resource type="PackedScene" uid="uid://bfoqdma576a48" path="res://Global/UI/TweenableLabel/TweenableLabel.tscn" id="2_62eqk"]
 [ext_resource type="Texture2D" uid="uid://bqig4wk6xkg4n" path="res://Game/Platformer/Upgrades/upgrades.png" id="2_tvd84"]
 [ext_resource type="Theme" uid="uid://bwekckjgabm36" path="res://Global/UI/theme.tres" id="3_op12a"]
 [ext_resource type="FontFile" uid="uid://cjebqaobshgr4" path="res://Global/UI/NotJamSciMono10.ttf" id="4_mb33m"]
+[ext_resource type="AudioStream" uid="uid://bkxf5v5v0y5y5" path="res://Global/Audio/UI/NotEnoughPoints_Rejection.wav" id="6_ld7st"]
+[ext_resource type="AudioStream" uid="uid://dgagu1bvgokr0" path="res://Global/Audio/UI/Upgrade_Buy1.wav" id="7_pcpk6"]
+[ext_resource type="AudioStream" uid="uid://banllxxd5qewr" path="res://Global/Audio/UI/Upgrade_Buy2.wav" id="8_bjewb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_aspa8"]
 size = Vector2(32, 32)
@@ -121,6 +124,11 @@ _data = {
 "buy": SubResource("Animation_0t5ey")
 }
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_vq0yo"]
+streams_count = 2
+stream_0/stream = ExtResource("7_pcpk6")
+stream_1/stream = ExtResource("8_bjewb")
+
 [node name="UpgradeStation" type="Node2D" node_paths=PackedStringArray("sprite", "label_goo", "label_elec", "area", "anim")]
 script = ExtResource("1_acogj")
 sprite = NodePath("AnimatedSprite2D")
@@ -175,3 +183,11 @@ anim_length = 0.3
 libraries = {
 "": SubResource("AnimationLibrary_56rpf")
 }
+
+[node name="UrBroke" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_ld7st")
+bus = &"SFX"
+
+[node name="Purchased" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_vq0yo")
+bus = &"SFX"

@@ -1,7 +1,12 @@
-[gd_scene load_steps=11 format=3 uid="uid://dpb8oud11mweg"]
+[gd_scene load_steps=21 format=3 uid="uid://dpb8oud11mweg"]
 
 [ext_resource type="Script" path="res://Game/Platformer/Player/player.gd" id="1_r3qvy"]
 [ext_resource type="Texture2D" uid="uid://b6d2kmarteet" path="res://Game/Platformer/Player/GMTK_Minion_Frame.png" id="2_8bai0"]
+[ext_resource type="AudioStream" uid="uid://l4mt1xgahbeg" path="res://Global/Audio/Jump/8bit_jump1.wav" id="3_pq33f"]
+[ext_resource type="AudioStream" uid="uid://bjjm1yrahe4dy" path="res://Global/Audio/Landing/Landing1.wav" id="4_fxu1n"]
+[ext_resource type="AudioStream" uid="uid://qqppxk4hp83s" path="res://Global/Audio/Landing/landing2.wav" id="5_t5m1k"]
+[ext_resource type="AudioStream" uid="uid://4xokbayerr8b" path="res://Global/Audio/Landing/landing3.wav" id="6_0kxst"]
+[ext_resource type="AudioStream" uid="uid://dvvrsv0peqw8q" path="res://Global/Audio/Jetpack/jetpack_flyingloop.wav" id="7_ty4gy"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_6m4a6"]
 animations = [{
@@ -68,7 +73,29 @@ radius = 4.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_gw63c"]
 radius = 4.0
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("camera_center", "player_sprite", "ledge_grab", "space_check", "floor_check", "item_holder") groups=["player"]]
+[sub_resource type="Animation" id="Animation_yf6ub"]
+resource_name = "jump"
+
+[sub_resource type="Animation" id="Animation_w6jq2"]
+resource_name = "shoot_grapple"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_683ft"]
+_data = {
+"jump": SubResource("Animation_yf6ub"),
+"shoot_grapple": SubResource("Animation_w6jq2")
+}
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_402wm"]
+streams_count = 1
+stream_0/stream = ExtResource("3_pq33f")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_e0j3e"]
+streams_count = 3
+stream_0/stream = ExtResource("4_fxu1n")
+stream_1/stream = ExtResource("5_t5m1k")
+stream_2/stream = ExtResource("6_0kxst")
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("camera_center", "player_sprite", "ledge_grab", "space_check", "floor_check", "item_holder", "jetpack_sound") groups=["player"]]
 texture_filter = 1
 script = ExtResource("1_r3qvy")
 camera_center = NodePath("CameraCenter")
@@ -77,6 +104,7 @@ ledge_grab = NodePath("AreaDetectors/LedgeGrabArea")
 space_check = NodePath("AreaDetectors/LedgeClipDetector")
 floor_check = NodePath("AreaDetectors/FloorDetector")
 item_holder = NodePath("ItemHolder")
+jetpack_sound = NodePath("Jetpack")
 
 [node name="CameraCenter" type="Node2D" parent="."]
 
@@ -126,6 +154,25 @@ shape = SubResource("CircleShape2D_gw63c")
 
 [node name="ItemHolder" type="Node2D" parent="."]
 position = Vector2(-7, 9)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_683ft")
+}
+
+[node name="JumpSound" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_402wm")
+volume_db = -10.0
+bus = &"SFX"
+
+[node name="LandSound" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_e0j3e")
+bus = &"SFX"
+
+[node name="Jetpack" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_ty4gy")
+volume_db = -10.0
+bus = &"SFX"
 
 [connection signal="body_entered" from="AreaDetectors/LedgeGrabArea" to="." method="_on_ledge_grab_area_body_entered"]
 [connection signal="body_exited" from="AreaDetectors/LedgeGrabArea" to="." method="_on_ledge_grab_area_body_exited"]

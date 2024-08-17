@@ -14,6 +14,7 @@ var latch_point_position : Vector2
 
 func _ready():
 	change_state(State.SHOOT)
+	$Shoot.play()
 
 # player holder purple, latch point green, collision red
 func _physics_process(delta):
@@ -62,4 +63,5 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		change_state(State.LATCH)
 		global_position = body.map_to_local(body.local_to_map(global_position))
 		body.local_to_map(global_position)
+		$Latch.play()
 		

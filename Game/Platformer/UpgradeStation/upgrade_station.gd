@@ -42,3 +42,6 @@ func _process(delta: float) -> void:
 					print("\n\ntower_stack:\n", Global.tower_stack)
 					bought = true
 					anim.play("buy")
+					$Purchased.play()
+				else:
+					$UrBroke.play()

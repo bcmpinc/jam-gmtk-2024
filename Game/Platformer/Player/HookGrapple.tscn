@@ -1,7 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://ce4gttc5tqc8g"]
+[gd_scene load_steps=10 format=3 uid="uid://ce4gttc5tqc8g"]
 
 [ext_resource type="Script" path="res://Game/Platformer/Player/hook_grapple.gd" id="1_hsbeg"]
 [ext_resource type="Texture2D" uid="uid://bn33jm1s3ikrg" path="res://Game/Platformer/Player/placeholder_grapple.png" id="2_fekhi"]
+[ext_resource type="AudioStream" uid="uid://djrpk3wm2grev" path="res://Global/Audio/Grappling Hook/GrapplingHook_Deploy1.wav" id="3_udymb"]
+[ext_resource type="AudioStream" uid="uid://vec2psb7ghgl" path="res://Global/Audio/Grappling Hook/GrapplingHook_Impact2.wav" id="4_x3ndq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1tk6f"]
 
@@ -10,6 +12,14 @@ radius = 1.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_puwf1"]
 radius = 4.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_lvqto"]
+streams_count = 1
+stream_0/stream = ExtResource("3_udymb")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_p8hd2"]
+streams_count = 1
+stream_0/stream = ExtResource("4_x3ndq")
 
 [node name="HookGrapple" type="RigidBody2D" node_paths=PackedStringArray("player_holder", "spring", "chain_texture", "collision_detector") groups=["grapples"]]
 texture_filter = 1
@@ -53,5 +63,13 @@ angular_damp = 0.2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
 shape = SubResource("CircleShape2D_puwf1")
+
+[node name="Shoot" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_lvqto")
+
+[node name="Latch" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_p8hd2")
+volume_db = -10.0
+bus = &"SFX"
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

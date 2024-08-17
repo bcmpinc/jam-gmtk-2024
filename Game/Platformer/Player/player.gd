@@ -49,7 +49,11 @@ var unlocked_abilities : Array[int] = [Abilities.JETPACK, Abilities.GRAPPLE]
 
 @export var item_holder : Node2D
 
-func _physics_process(delta: float) -> void:	
+@export var jetpack_sound : AudioStreamPlayer
+
+func _physics_process(delta: float) -> void:
+	var was_in_air := not is_on_floor()
+	var last_velocity = velocity.y
 	if abs(look_time) > 0.8:
 		if look_time > 0:
 			camera_center.position.y = lerp(camera_center.position.y, -128.0, 0.2)
@@ -79,6 +83,7 @@ func _physics_process(delta: float) -> void:
 				velocity.y = JUMP_VELOCITY
 			else:
 				velocity.y += JUMP_VELOCITY
+			$JumpSound.play()
 		elif len(get_tree().get_nodes_in_group("grapples")) == 0 and Abilities.GRAPPLE in unlocked_abilities:
 			shoot_grapple()
 	
@@ -126,9 +131,12 @@ func _physics_process(delta: float) -> void:
 			position.y -= 60.0 * delta
 			velocity.y *= 0.1
 			jetpack_juice -= delta
-			
+			if not jetpack_sound.playing:
+				jetpack_sound.play()
 		else:
 			look_time += delta
+	
+	
 	
 	if Input.is_action_pressed("drop") and holding_an_item:
 		item_holder.get_child(0).drop()
@@ -146,10 +154,16 @@ func _physics_process(delta: float) -> void:
 		player_sprite.animation = "latch"
 	
 	if Input.is_action_just_released("up") or Input.is_action_just_released("down"):
+		if jetpack_sound.playing:
+			jetpack_sound.stop()
 		look_time = 0.0
 	
 	move_and_slide()
-
+	
+	if is_on_floor():
+		if was_in_air and last_velocity > 100:
+			$LandSound.play()
+	
 
 func detatch_from_grapple():
 	if active_grapple != null:
@@ -165,6 +179,7 @@ func shoot_grapple():
 	cur_grap.target = self
 	active_grapple = cur_grap
 	get_parent().add_child(cur_grap)
+	
 
 
 func try_latch():

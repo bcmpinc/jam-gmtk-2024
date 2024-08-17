@@ -32,3 +32,6 @@ func _process(delta: float) -> void:
 				pay_player.emit(bank_type, coffers)
 				label.update(0)
 				has_been_used = true
+				$PayoutSound.play()
+				$PayoutSound.play()
+				$PayoutSound.play()
