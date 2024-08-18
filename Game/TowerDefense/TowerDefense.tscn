@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://ca6guqrgbh6kx"]
+[gd_scene load_steps=9 format=3 uid="uid://ca6guqrgbh6kx"]
 
 [ext_resource type="Script" path="res://Game/TowerDefense/tower_defense.gd" id="1_dm75f"]
+[ext_resource type="Script" path="res://Game/TowerDefense/diorama.gd" id="2_8gsmu"]
 [ext_resource type="Texture2D" uid="uid://h5u8c1f4qap1" path="res://icon.svg" id="2_dimbm"]
 [ext_resource type="Texture2D" uid="uid://dft7kro3vwtf2" path="res://Game/TowerDefense/Tower/BW_Building.png" id="2_peddx"]
 [ext_resource type="Texture2D" uid="uid://eyeoamnl61fb" path="res://Game/TowerDefense/frame.png" id="4_38jwu"]
@@ -24,38 +25,30 @@ script = ExtResource("1_dm75f")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ps0ua")
 
-[node name="Tower" type="Node2D" parent="."]
-visible = false
-position = Vector2(160, 238)
+[node name="Diorama" type="Node" parent="."]
+script = ExtResource("2_8gsmu")
 
-[node name="BwBuilding2" type="Sprite2D" parent="Tower"]
-position = Vector2(-293, -70)
-texture = ExtResource("2_peddx")
-
-[node name="TowerSprite" type="Sprite2D" parent="Tower"]
-position = Vector2(-304, -262)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("2_dimbm")
-
-[node name="Camera2D" type="Camera2D" parent="."]
-visible = false
-
-[node name="PlayerTower" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.19516, -2.5, -1)
+[node name="PlayerTower2" type="Sprite3D" parent="Diorama"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.64969, -2.5, -2)
 texture_filter = 0
 texture = ExtResource("2_peddx")
 
-[node name="Cannon" type="Sprite3D" parent="PlayerTower"]
+[node name="Cannon" type="Sprite3D" parent="Diorama/PlayerTower2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0.01)
 texture = ExtResource("2_dimbm")
 
-[node name="Frame" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+[node name="Frame2" type="Sprite3D" parent="Diorama"]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, -1)
+texture_filter = 0
+texture = ExtResource("4_38jwu")
+
+[node name="Frame3" type="Sprite3D" parent="Diorama"]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -3.59096, 0, -3.37111)
 texture_filter = 0
 texture = ExtResource("4_38jwu")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 keep_aspect = 0
-fov = 134.7
+fov = 90.0
 near = 0.1
-far = 100.0
+far = 100.1

@@ -2,4 +2,5 @@
 .godot/
 *~
 override.cfg
+*.psd
 
