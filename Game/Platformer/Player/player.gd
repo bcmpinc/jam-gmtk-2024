@@ -49,6 +49,7 @@ var unlocked_abilities : Array[int] = [Abilities.JETPACK, Abilities.GRAPPLE]
 @export var ledge_grab : Area2D
 @export var space_check : Area2D
 @export var floor_check : Area2D
+@export var interact : Area2D
 
 @export var item_holder : Node2D
 
@@ -153,13 +154,19 @@ func _physics_process(delta: float) -> void:
 	
 	if Input.is_action_pressed("down"):
 		look_time -= delta
-		if Input.is_action_pressed("accept") and holding_an_item:
-			item_holder.get_child(0).drop()
-		elif state not in [State.LATCH, State.GRAPPLE]:
+		if state not in [State.LATCH, State.GRAPPLE]:
 			state = State.FALL
 	
-	if Input.is_action_just_released("down") and state == State.LATCH:
-		player_sprite.animation = "latch"
+	if Input.is_action_just_released("down"):
+		if holding_an_item:
+			item_holder.get_child(0).drop(velocity)
+		elif len(interact.get_overlapping_bodies()) > 0:
+			var seeing = interact.get_overlapping_bodies()
+			for item in seeing:
+				if item is Upgrade_Box:
+					item.collect(self)
+		elif state == State.LATCH:
+			player_sprite.animation = "latch"
 	
 	if Input.is_action_just_released("up") or Input.is_action_just_released("down"):
 		if jetpack_sound.playing:
@@ -208,7 +215,7 @@ func _on_ledge_clip_detector_body_exited(_body: Node2D) -> void:
 
 func _on_interact_area_body_entered(body: Node2D) -> void:
 	if body is Upgrade_Box:
-		pass
+		print('ere')
 
 
 func _on_floor_detector_body_shape_entered(_body_rid: RID, body: Node2D, _body_shape_index: int, local_shape_index: int) -> void:

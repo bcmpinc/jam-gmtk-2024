@@ -273,7 +273,7 @@ radius = 2.0
 radius = 2.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_k4rb7"]
-radius = 7.0
+radius = 16.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_l0p0t"]
 radius = 2.0
@@ -306,7 +306,7 @@ stream_0/stream = ExtResource("4_fxu1n")
 stream_1/stream = ExtResource("5_t5m1k")
 stream_2/stream = ExtResource("6_0kxst")
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("camera_center", "player_sprite", "ledge_grab", "space_check", "floor_check", "item_holder", "jetpack_sound", "jetpack_particles") groups=["player"]]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("camera_center", "player_sprite", "ledge_grab", "space_check", "floor_check", "interact", "item_holder", "jetpack_sound", "jetpack_particles") groups=["player"]]
 texture_filter = 1
 script = ExtResource("1_r3qvy")
 camera_center = NodePath("CameraCenter")
@@ -314,6 +314,7 @@ player_sprite = NodePath("AnimatedSprite2D")
 ledge_grab = NodePath("AreaDetectors/LedgeGrabArea")
 space_check = NodePath("AreaDetectors/LedgeClipDetector")
 floor_check = NodePath("AreaDetectors/FloorDetector")
+interact = NodePath("AreaDetectors/InteractArea")
 item_holder = NodePath("ItemHolder")
 jetpack_sound = NodePath("Jetpack")
 jetpack_particles = NodePath("JetpackParticles")
@@ -331,7 +332,7 @@ lifetime = 0.5
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_6m4a6")
 animation = &"run"
-frame_progress = 0.575697
+frame_progress = 0.0964887
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["player"]]
 position = Vector2(0, 4)

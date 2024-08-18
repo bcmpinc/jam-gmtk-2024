@@ -14,15 +14,17 @@ func _ready() -> void:
 	default_parent = get_parent()
 	sprite.animation = station_type
 	sprite.frame = rank
+	collision_layer = 2
+	collision_mask = 2
 
 
 func _process(delta: float) -> void:
 	if has_been_grabbed:
 		global_position = get_parent().global_position
 
+
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body is Player and not has_been_grabbed:
-		call_deferred("collect", body)
+	pass
 
 
 func collect(new_parent):
@@ -31,15 +33,16 @@ func collect(new_parent):
 	freeze = true
 	position = Vector2.ZERO
 	collision_layer = 0
+	collision_mask = 0
 
-func drop():
-	var last_vel = get_parent().get_parent().linear_velocity 
-	reparent(default_parent)
+
+func drop(velocity):
 	has_been_grabbed = false
+	reparent(default_parent)
 	freeze = false
 	collision_layer = 2
 	collision_mask = 2
-	linear_velocity = last_vel
+	linear_velocity = velocity
 	
 
 func dispense():

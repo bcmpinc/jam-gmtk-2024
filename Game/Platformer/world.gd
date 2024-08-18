@@ -28,3 +28,13 @@ func update_wallet(currency_type : String = '', amount : int = 0):
 	$CanvasLayer/HUD/GooInventory.update(Global.inventory_goo * 100)
 	$CanvasLayer/HUD/ElecInventory.update(Global.inventory_electricity * 100)
 	
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if body is Upgrade_Box:
+		body.collision_layer = 0
+		body.collision_mask = 0
+		body.linear_velocity = Vector2.ZERO
+		body.apply_central_impulse(Vector2(0, -100))
+		body.z_index = -1
+		print('box acquired')
