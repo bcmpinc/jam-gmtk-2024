@@ -32,9 +32,14 @@ func update_wallet(currency_type : String = '', amount : int = 0):
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body is Upgrade_Box:
+		Global.upgrade_levels[body.station_type] += 1
+		Global.tower_stack.append({body.station_type:Global.upgrade_levels[body.station_type]})
+		print(Global.tower_stack)
 		body.collision_layer = 0
 		body.collision_mask = 0
 		body.linear_velocity = Vector2.ZERO
 		body.apply_central_impulse(Vector2(0, -100))
-		body.z_index = -1
-		print('box acquired')
+		await get_tree().create_timer(0.4).timeout
+		$Gulp.play()
+		await get_tree().create_timer(0.3).timeout
+		$GPUParticles2D.emitting = true

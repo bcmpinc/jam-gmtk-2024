@@ -46,8 +46,6 @@ func _process(delta: float) -> void:
 					
 					Global.inventory_electricity -= cur_cost_elec
 					Global.inventory_goo -= cur_cost_goo
-					Global.upgrade_levels[station_type] += 1
-					Global.tower_stack.append({station_type:Global.upgrade_levels[station_type]})
 					bought = true
 					anim.play("buy")
 					$Purchased.play()

@@ -332,7 +332,7 @@ lifetime = 0.5
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_6m4a6")
 animation = &"run"
-frame_progress = 0.0964887
+frame_progress = 0.0998558
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["player"]]
 position = Vector2(0, 4)

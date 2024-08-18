@@ -41,6 +41,13 @@ var holding_an_item := false:
 	get:
 		return len(item_holder.get_children()) > 0
 
+var speed_modifier := 1.0 :
+	get:
+		if holding_an_item:
+			return 0.8 - (item_holder.get_child(0).rank * 0.2)
+		else:
+			return 1.0
+
 var unlocked_abilities : Array[int] = [Abilities.JETPACK, Abilities.GRAPPLE]
 
 @export var camera_center : Node2D
@@ -90,11 +97,11 @@ func _physics_process(delta: float) -> void:
 		elif is_on_floor() or state in [State.LATCH, State.GRAPPLE] or coyote_time < 0.1:
 			detatch_from_grapple()
 			if coyote_time < 0.1 and not State.GRAPPLE:
-				velocity.y = JUMP_VELOCITY
+				velocity.y = JUMP_VELOCITY * speed_modifier
 			else:
-				velocity.y += JUMP_VELOCITY
+				velocity.y += JUMP_VELOCITY * speed_modifier
 			$JumpSound.play()
-		elif len(get_tree().get_nodes_in_group("grapples")) == 0 and Abilities.GRAPPLE in unlocked_abilities:
+		elif len(get_tree().get_nodes_in_group("grapples")) == 0 and Abilities.GRAPPLE in unlocked_abilities and not holding_an_item:
 			shoot_grapple()
 	
 	if Input.is_action_just_released("jump"):
@@ -109,7 +116,7 @@ func _physics_process(delta: float) -> void:
 		look_time = 0.0
 		if not state == State.LATCH:
 			player_sprite.flip_h = direction < 0
-			velocity.x = lerp(velocity.x, direction * SPEED, 0.045)
+			velocity.x = lerp(velocity.x, direction * SPEED * speed_modifier, 0.045)
 			ledge_grab.scale.x = direction
 			space_check.scale.x = direction
 			floor_check.scale.x = direction
@@ -142,7 +149,7 @@ func _physics_process(delta: float) -> void:
 
 	if Input.is_action_pressed("up"):
 		if jetpack_juice > 0 and not is_on_floor() and len(get_tree().get_nodes_in_group("grapples")) == 0 and Abilities.JETPACK in unlocked_abilities:
-			position.y -= 60.0 * delta
+			position.y -= 60.0 * delta * speed_modifier
 			velocity.y *= 0.1
 			jetpack_juice -= delta
 			if not jetpack_sound.playing:
@@ -156,16 +163,11 @@ func _physics_process(delta: float) -> void:
 		look_time -= delta
 		if state not in [State.LATCH, State.GRAPPLE]:
 			state = State.FALL
+		if is_on_floor() and holding_an_item:
+			item_holder.get_child(0).drop(velocity)
 	
 	if Input.is_action_just_released("down"):
-		if holding_an_item:
-			item_holder.get_child(0).drop(velocity)
-		elif len(interact.get_overlapping_bodies()) > 0:
-			var seeing = interact.get_overlapping_bodies()
-			for item in seeing:
-				if item is Upgrade_Box:
-					item.collect(self)
-		elif state == State.LATCH:
+		if state == State.LATCH:
 			player_sprite.animation = "latch"
 	
 	if Input.is_action_just_released("up") or Input.is_action_just_released("down"):
@@ -173,6 +175,15 @@ func _physics_process(delta: float) -> void:
 			jetpack_particles.amount_ratio = 0.0
 			jetpack_sound.stop()
 		look_time = 0.0
+	
+	if Input.is_action_just_released("accept"):
+		if holding_an_item:
+			item_holder.get_child(0).drop(velocity)
+		elif len(interact.get_overlapping_bodies()) > 0:
+			var seeing = interact.get_overlapping_bodies()
+			for item in seeing:
+				if item is Upgrade_Box:
+					item.collect(self)
 	
 	move_and_slide()
 	
@@ -214,8 +225,7 @@ func _on_ledge_clip_detector_body_exited(_body: Node2D) -> void:
 
 
 func _on_interact_area_body_entered(body: Node2D) -> void:
-	if body is Upgrade_Box:
-		print('ere')
+	pass
 
 
 func _on_floor_detector_body_shape_entered(_body_rid: RID, body: Node2D, _body_shape_index: int, local_shape_index: int) -> void:
