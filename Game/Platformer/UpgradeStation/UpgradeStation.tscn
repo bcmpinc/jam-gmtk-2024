@@ -129,7 +129,7 @@ streams_count = 2
 stream_0/stream = ExtResource("7_pcpk6")
 stream_1/stream = ExtResource("8_bjewb")
 
-[node name="UpgradeStation" type="Node2D" node_paths=PackedStringArray("sprite", "label_goo", "label_elec", "area", "anim")]
+[node name="UpgradeStation" type="Node2D" node_paths=PackedStringArray("sprite", "label_goo", "label_elec", "area", "anim") groups=["kiosk", "upgrade_station"]]
 script = ExtResource("1_acogj")
 sprite = NodePath("AnimatedSprite2D")
 label_goo = NodePath("GooCost")
@@ -191,3 +191,6 @@ bus = &"SFX"
 [node name="Purchased" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStreamRandomizer_vq0yo")
 bus = &"SFX"
+
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2(0, -20)

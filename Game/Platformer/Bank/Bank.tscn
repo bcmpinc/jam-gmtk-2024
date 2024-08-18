@@ -48,7 +48,7 @@ stream_1/stream = ExtResource("7_cw8jp")
 stream_2/stream = ExtResource("8_2ceii")
 stream_3/stream = ExtResource("9_pkrfs")
 
-[node name="Bank" type="Node2D" node_paths=PackedStringArray("sprite", "area", "anim", "label") groups=["bank"]]
+[node name="Bank" type="Node2D" node_paths=PackedStringArray("sprite", "area", "anim", "label") groups=["bank", "kiosk"]]
 texture_filter = 1
 script = ExtResource("1_dqgmc")
 sprite = NodePath("AnimatedSprite2D")

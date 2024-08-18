@@ -1,7 +1,7 @@
 class_name Player extends CharacterBody2D
 
 enum State {FALL, LATCH, GRAPPLE, ASCEND}
-enum Abilities {GRAPPLE, DOUBLE_JUMP, DASH, JETPACK}
+enum Abilities {LEDGE_GRAB, GRAPPLE, DOUBLE_JUMP, DASH, JETPACK}
 
 @onready var grapple : PackedScene = preload("res://Game/Platformer/Player/HookGrapple.tscn")
 
@@ -33,6 +33,9 @@ var next_ground_tile := []
 var detector_list := []
 
 var dir := Vector2.ZERO
+
+var temp_wallet := {"Goo" : 0, "Electricity" : 0}
+
 
 var holding_an_item := false:
 	get:
@@ -76,10 +79,10 @@ func _physics_process(delta: float) -> void:
 
 	if not is_on_floor() and state == State.FALL:
 		coyote_time += delta
-		player_sprite.animation = "jump"
+		player_sprite.play("jump")
 		velocity.y += gravity * delta
 
-	if Input.is_action_just_pressed("accept"):
+	if Input.is_action_just_pressed("jump"):
 		look_time = 0.0
 		if state == State.LATCH and Input.is_action_pressed("down"):
 			state = State.FALL
@@ -93,11 +96,9 @@ func _physics_process(delta: float) -> void:
 		elif len(get_tree().get_nodes_in_group("grapples")) == 0 and Abilities.GRAPPLE in unlocked_abilities:
 			shoot_grapple()
 	
-	if Input.is_action_just_released("accept"):
+	if Input.is_action_just_released("jump"):
 		detatch_from_grapple()
 	
-	if is_on_floor() and velocity == Vector2.ZERO:
-		player_sprite.animation = "idle"
 	
 	var direction := Input.get_axis("left", "right")
 	if direction:
@@ -111,11 +112,15 @@ func _physics_process(delta: float) -> void:
 			ledge_grab.scale.x = direction
 			space_check.scale.x = direction
 			floor_check.scale.x = direction
-			player_sprite.animation = "run"
-			if len(skip_tiles) == 0 and len(next_ground_tile) > 0 and is_on_floor() and abs(velocity.x) > 50:
-				velocity.y -= 100
+			if is_on_floor():
+				player_sprite.play("run")
+				if len(skip_tiles) == 0 and len(next_ground_tile) > 0 and  abs(velocity.x) > 50:
+					velocity.y -= 100
 	else:
 		velocity.x = lerp(velocity.x, 0.0, delta * 10)
+		
+	if is_on_floor() and abs(velocity.x) < 30:
+		player_sprite.play("idle")
 	
 	var last_pressed_dir = null
 	for i in ["left", "right"]:
@@ -146,17 +151,12 @@ func _physics_process(delta: float) -> void:
 			look_time += delta
 
 	
-	if Input.is_action_pressed("drop") and holding_an_item:
-		item_holder.get_child(0).drop()
-	
 	if Input.is_action_pressed("down"):
 		look_time -= delta
-		var just_on_plank = false
 		if Input.is_action_pressed("accept") and holding_an_item:
 			item_holder.get_child(0).drop()
 		elif state not in [State.LATCH, State.GRAPPLE]:
 			state = State.FALL
-			
 	
 	if Input.is_action_just_released("down") and state == State.LATCH:
 		player_sprite.animation = "latch"
@@ -207,7 +207,7 @@ func _on_ledge_clip_detector_body_exited(_body: Node2D) -> void:
 
 
 func _on_interact_area_body_entered(body: Node2D) -> void:
-	if not body == tm:
+	if body is Upgrade_Box:
 		pass
 
 

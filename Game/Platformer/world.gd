@@ -6,17 +6,18 @@ extends Node
 @export var bg_muisc : AudioStream
 
 func _ready() -> void:
-	add_to_wallet()
+	update_wallet()
 	Global.play_music(bg_muisc)
 	cam.position = player.position
 	
-	for bank in get_tree().get_nodes_in_group("bank"):
-		bank.pay_player.connect(add_to_wallet)
+	for kiosk in get_tree().get_nodes_in_group("kiosk"):
+		kiosk.interact_currency.connect(update_wallet)
 
 func _process(delta: float) -> void:
 	cam.position = lerp(cam.position, player.camera_center.global_position, 18*delta)
 
-func add_to_wallet(currency_type : String = '', amount : int = 0):
+func update_wallet(currency_type : String = '', amount : int = 0):
+	# positive is added to the balance, negative is subtracted
 	match currency_type:
 		"Goo":
 			Global.inventory_goo += amount
@@ -24,5 +25,6 @@ func add_to_wallet(currency_type : String = '', amount : int = 0):
 			Global.inventory_electricity += amount
 		'':
 			pass
-	$CanvasLayer/HUD/GooInventory.update(Global.inventory_goo)
-	$CanvasLayer/HUD/ElecInventory.update(Global.inventory_electricity)
+	$CanvasLayer/HUD/GooInventory.update(Global.inventory_goo * 100)
+	$CanvasLayer/HUD/ElecInventory.update(Global.inventory_electricity * 100)
+	

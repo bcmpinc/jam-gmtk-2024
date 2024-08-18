@@ -3,11 +3,11 @@ extends Node2D
 @export_enum("Goo", "Electricity") var bank_type : String
 
 
-signal pay_player(what : String, how_much : int)
+signal interact_currency(what : String, how_much : int)
 
 var has_been_used := false
 
-var coffers := 10
+@export var coffers := 1
 
 @export var sprite : AnimatedSprite2D
 @export var area : Area2D
@@ -29,7 +29,7 @@ func _process(delta: float) -> void:
 		var overlapping = area.get_overlapping_bodies()
 		for item in overlapping:
 			if item is Player:
-				pay_player.emit(bank_type, coffers)
+				interact_currency.emit(bank_type, coffers)
 				label.update(0)
 				has_been_used = true
 				$PayoutSound.play()
